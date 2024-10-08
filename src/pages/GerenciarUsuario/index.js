@@ -1,0 +1,41 @@
+import React, { useState } from "react";
+import CadastrarUsuario from "../CadastrarUsuario";
+import ConsultarPessoa from "../ConsultarPessoa";
+import * as C from "./styles";
+
+const GerenciarUsuario = () => {
+  const [activePage, setActivePage] = useState("consultarPessoa");
+  const [selectedPessoa, setSelectedPessoa] = useState(null);
+  const [cpfToRegister, setCpfToRegister] = useState("");
+
+  const handlePessoaSelected = (pessoa) => {
+    setSelectedPessoa(pessoa);
+    setActivePage("cadastrarUsuario");
+  };
+
+  const handleGoToCadastrar = (cpf) => {
+    setCpfToRegister(cpf);
+    setActivePage("cadastrarUsuario");
+  };
+
+  return (
+    <C.Container>
+      <C.Title>Gerenciar Usuario</C.Title>
+      {activePage === "consultarPessoa" && (
+        <ConsultarPessoa
+          onSelectPessoa={handlePessoaSelected}
+          onGoToCadastrar={handleGoToCadastrar}
+        />
+      )}
+      {activePage === "cadastrarUsuario" && (
+        <CadastrarUsuario
+          pessoa={selectedPessoa}
+          cpf={cpfToRegister}
+          onUserCreated={() => setActivePage("consultarPessoa")}
+        />
+      )}
+    </C.Container>
+  );
+};
+
+export default GerenciarUsuario;
