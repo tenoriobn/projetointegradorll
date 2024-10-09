@@ -3,7 +3,7 @@ import CadastrarUsuario from "../CadastrarUsuario";
 import ConsultarPessoa from "../ConsultarPessoa";
 import * as C from "./styles";
 
-const GerenciarUsuario = () => {
+const GerenciarUsuario = ({ showPopupMessage}) => {
   const [activePage, setActivePage] = useState("consultarPessoa");
   const [selectedPessoa, setSelectedPessoa] = useState(null);
   const [cpfToRegister, setCpfToRegister] = useState("");
@@ -32,6 +32,8 @@ const GerenciarUsuario = () => {
           pessoa={selectedPessoa}
           cpf={cpfToRegister}
           onUserCreated={() => setActivePage("consultarPessoa")}
+          showPopupMessage={showPopupMessage}
+          
         />
       )}
     </C.Container>

@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import CadastrarUsuario from "../CadastrarUsuario";
 import ConsultarPessoa from "../ConsultarPessoa";
 import GerenciarUsuario from "../GerenciarUsuario";
+import Popup from "../Popup"; // Popup para exibir as mensagens
 import * as C from "./styles";
 
 const Home = () => {
@@ -11,6 +12,11 @@ const Home = () => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [activePage, setActivePage] = useState("home");
   const [fontSize, setFontSize] = useState("16px");
+
+  // estado para gerenciar a mensagem do popup
+  const [popupMessage, setPopupMessage] = useState("");
+  const [popupType, setPopupType] = useState(""); // Tipo de popup (sucesso ou erro)
+  const [popupTitle, setPopupTitle] = useState("");
 
   const handleSignout = () => {
     signout();
@@ -41,7 +47,14 @@ const Home = () => {
 
   const handleUserQueried = (queriedUser) => {
     // Ação a ser realizada após consultar o usuário
-    console.log("Usuário consultado:", queriedUser);
+    //console.log("Usuário consultado:", queriedUser);
+  };
+
+  // Função para exibir o popup
+  const showPopupMessage = (title, message, type) => {
+    setPopupMessage(message);
+    setPopupType(type);
+    setPopupTitle(title);
   };
 
   return (
@@ -67,20 +80,7 @@ const Home = () => {
         >
           Home
         </C.SidebarLink>
-        <C.SidebarLink
-          as={Link}
-          to="#"
-          onClick={() => handlePageChange("cadastrarUsuario")}
-        >
-          Cadastrar Usuário
-        </C.SidebarLink>
-        <C.SidebarLink
-          as={Link}
-          to="#"
-          onClick={() => handlePageChange("consultarPessoa")}
-        >
-          Consultar Pessoa
-        </C.SidebarLink>
+
         <C.SidebarLink
           as={Link}
           to="#"
@@ -105,6 +105,7 @@ const Home = () => {
             <CadastrarUsuario
               onUserCreated={handleUserCreated}
               fontSize={fontSize}
+              showPopupMessage={showPopupMessage} // Passando a função de exibir popup
             />
           )}
           {activePage === "consultarPessoa" && (
@@ -118,10 +119,21 @@ const Home = () => {
             <GerenciarUsuario
               onUserCreated={handleUserCreated}
               fontSize={fontSize}
+              showPopupMessage={showPopupMessage}
             />
           )}
         </C.Content>
       </C.Main>
+
+      {/* Exibe o Popup apenas se houver uma mensagem */}
+      {popupMessage && (
+        <Popup
+          title={popupTitle}
+          message={popupMessage}
+          type={popupType}
+          onClose={() => setPopupMessage("")} // Fechar o popup ao clicar no botão de fechar
+        />
+      )}
     </C.Container>
   );
 };
