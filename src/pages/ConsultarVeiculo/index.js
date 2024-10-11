@@ -18,7 +18,6 @@ const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
         setLoading(true);
         try {
           let resultado;
-          console.log(verificarPlaca(valorConsultado));
 
           if (verificarPlaca(valorConsultado)) {
             resultado = await searchVeiculoPlaca(valorConsultado); // Busca pela placa

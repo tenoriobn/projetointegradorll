@@ -23,6 +23,7 @@ export const searchVeiculoPlaca = async (placaloVeiculo) => {
 export const searchModelos = async () => {
   try {
     const response = await api.get("/veiculos/modelos/listar");
+
     return response.data;
   } catch (error) {
     throw new Error("Erro ao buscar modelos de veículo:", error);

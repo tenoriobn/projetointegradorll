@@ -12,36 +12,42 @@ const GlobalStyle = createGlobalStyle`
     height: 100vh;
     background-color: #f0f2f5;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: ${({ fontSize }) => fontSize || "13px"};
+    font-size: ${({ fontSize }) => fontSize || "1rem"}; /* Usa rem para tamanhos de fonte responsivos */
     transition: font-size 0.3s ease;
   }
 
   button, input, select, textarea {
-    font-size: inherit; // Mantém a herança do tamanho da fonte do body
-    padding: 10px; // Define um padding padrão
-    border: 1px solid #ccc; // Borda padrão
-    border-radius: 5px; // Bordas arredondadas
+    font-size: inherit; /* Mantém a herança do tamanho da fonte do body */
+    padding: 0.625rem; /* Usa rem ao invés de px para padding */
+    border: 1px solid #ccc; /* Borda padrão */
+    border-radius: 0.3125rem; /* Bordas arredondadas em rem */
   }
 
   input {
-    background-color:  #f8f9fc; // Cor de fundo dos inputs
+    background-color: #f8f9fc; /* Cor de fundo dos inputs */
     border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
+    border-radius: 0.25rem; /* Bordas em rem */
+    width: 100%; /* Garante que o input ocupe toda a largura disponível */
   }
 
   button {
-    background-color: #046ee5; // Cor de fundo dos botões
-    color: white; // Cor do texto dos botões
-    cursor: pointer; // Mudança de cursor ao passar o mouse
+    background-color: #046ee5; /* Cor de fundo dos botões */
+    color: white; /* Cor do texto dos botões */
+    cursor: pointer; /* Mudança de cursor ao passar o mouse */
+    width: auto; /* Define o tamanho automático do botão */
+    padding: 0.625rem 1.25rem; /* Padding em rem para tornar responsivo */
   }
 
   button:hover {
-    background-color: #0356b3; // Cor do botão ao passar o mouse
+    background-color: #0356b3; /* Cor do botão ao passar o mouse */
   }
 
-  h2{
-  font-size: inherit;};
+  h2 {
+    font-size: inherit; /* Mantém o tamanho de fonte herdado */
+  }
+  
+   label {
+    font-size: ${({ fontSize }) => fontSize * "0.3rem"}; ; /* Tamanho do label padrão */
   }
 `;
 

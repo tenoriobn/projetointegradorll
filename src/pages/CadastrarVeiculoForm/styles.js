@@ -1,32 +1,50 @@
 import styled from "styled-components";
 
 export const FormContainer = styled.form`
-  /* Adicione os estilos desejados */
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem; /* Espaçamento entre os grupos de linhas */
+  margin-top: 5vh; /* Espaço no topo usando 5% da altura da viewport */
+  width: 100%;
+  max-width: 1200px; /* Limita a largura máxima para telas grandes */
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+export const Row = styled.div`
+  display: flex;
+  flex-wrap: wrap; /* Permite que os campos quebrem para a próxima linha se necessário */
+  gap: 1.5rem; /* Espaçamento entre os campos */
+
+  @media (max-width: 768px) {
+    flex-direction: column; /* Em telas menores, os campos ficam em coluna */
+    gap: 1rem; /* Reduz o espaçamento entre os campos em telas menores */
+  }
 `;
 
 export const FormGroup = styled.div`
-  margin-bottom: 15px;
+  flex: 1; /* Faz com que os campos se expandam igualmente */
+  min-width: 200px; /* Define uma largura mínima para os campos */
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column; /* Coloca o label acima do input */
 
   label {
-    margin-right: 10px;
+    margin-bottom: 0.1rem; /* Espaçamento entre o label e o input */
   }
 
   input,
   select {
-    padding: 8px;
-    font-size: 1rem;
+    width: 100%; /* Certifica-se de que os inputs e selects ocupem toda a largura disponível */
+  }
+
+  @media (max-width: 768px) {
+    min-width: 100%; /* Em telas menores, os campos ocupam toda a largura */
   }
 `;
 
 export const SubmitButton = styled.button`
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-
-  &:hover {
-    background-color: #45a049;
-  }
+  width: auto; /* Botão com largura automática */
+  padding: 0.8rem 1.5rem; /* Padding ajustado */
+  align-self: flex-end; /* Alinha o botão à direita */
 `;

@@ -4,7 +4,7 @@ import {
   searchModelos,
   searchStatusVeiculo,
 } from "../../services/veiculoService";
-import * as F from "./styles.js";
+import * as F from "./styles";
 
 const CadastrarVeiculoForm = ({ showPopupMessage, onFormSubmitted }) => {
   const [formData, setFormData] = useState({
@@ -27,6 +27,8 @@ const CadastrarVeiculoForm = ({ showPopupMessage, onFormSubmitted }) => {
       try {
         const modelosResponse = await searchModelos();
         const statusResponse = await searchStatusVeiculo();
+      
+
         setModelos(modelosResponse);
         setVeiculoStatusList(statusResponse);
       } catch (error) {
@@ -59,102 +61,118 @@ const CadastrarVeiculoForm = ({ showPopupMessage, onFormSubmitted }) => {
     }
   };
 
-  return (
-    <F.FormContainer onSubmit={handleSubmit}>
-      <F.FormGroup>
-        <label>Ano:</label>
-        <input
-          type="number"
-          name="ano"
-          value={formData.ano}
-          onChange={handleInputChange}
-          required
-        />
-      </F.FormGroup>
-      <F.FormGroup>
-        <label>Placa:</label>
-        <input
-          type="text"
-          name="placa"
-          value={formData.placa}
-          onChange={handleInputChange}
-          required
-        />
-      </F.FormGroup>
-      <F.FormGroup>
-        <label>Data de Aquisição:</label>
-        <input
-          type="date"
-          name="dataAquisicao"
-          value={formData.dataAquisicao}
-          onChange={handleInputChange}
-          required
-        />
-      </F.FormGroup>
-      <F.FormGroup>
-        <label>Distância Diária (km):</label>
-        <input
-          type="number"
-          name="distanciaDiaria"
-          value={formData.distanciaDiaria}
-          onChange={handleInputChange}
-          required
-        />
-      </F.FormGroup>
-      <F.FormGroup>
-        <label>Modelo:</label>
-        <select
-          name="idModelo"
-          value={formData.idModelo}
-          onChange={handleInputChange}
-          required
-        >
-          <option value="">Selecione o Modelo</option>
-          {modelos.map((modelo) => (
-            <option key={modelo.idModelo} value={modelo.idModelo}>
-              {modelo.modelo}
-            </option>
-          ))}
-        </select>
-      </F.FormGroup>
-      <F.FormGroup>
-        <label>Status do Veículo:</label>
-        <select
-          name="idVeiculoStatus"
-          value={formData.idVeiculoStatus}
-          onChange={handleInputChange}
-          required
-        >
-          <option value="">Selecione o Status</option>
-          {veiculoStatusList.map((status) => (
-            <option key={status.idVeiculoStatus} value={status.idVeiculoStatus}>
-              {status.statusVeiculo}
-            </option>
-          ))}
-        </select>
-      </F.FormGroup>
-      <F.FormGroup>
-        <label>Vida Útil (km):</label>
-        <input
-          type="number"
-          name="vidaUtilKm"
-          value={formData.vidaUtilKm}
-          onChange={handleInputChange}
-          required
-        />
-      </F.FormGroup>
-      <F.FormGroup>
-        <label>KM Atual:</label>
-        <input
-          type="number"
-          name="kmAtual"
-          value={formData.kmAtual}
-          onChange={handleInputChange}
-          required
-        />
-      </F.FormGroup>
-      <F.SubmitButton type="submit">Cadastrar Veículo</F.SubmitButton>
-    </F.FormContainer>
+return (
+<F.FormContainer onSubmit={handleSubmit}>
+  <F.Row>
+  <F.FormGroup>
+      <label>Placa:</label>
+      <input
+        type="text"
+        name="placa"
+        value={formData.placa}
+        onChange={handleInputChange}
+        required
+      />
+    </F.FormGroup>
+    <F.FormGroup>
+      <label>Ano:</label>
+      <input
+        type="number"
+        name="ano"
+        value={formData.ano}
+        onChange={handleInputChange}
+        required
+      />
+    </F.FormGroup>
+    
+    <F.FormGroup>
+      <label>Data de Aquisição:</label>
+      <input
+        type="date"
+        name="dataAquisicao"
+        value={formData.dataAquisicao}
+        onChange={handleInputChange}
+        required
+      />
+    </F.FormGroup>
+    
+  </F.Row>
+
+  <F.Row>
+  <F.FormGroup>
+      <label>Modelo:</label>
+      <select
+        name="idModelo"
+        value={formData.idModelo}
+        onChange={handleInputChange}
+        required
+      >
+        <option value="">Selecione o Modelo</option>
+        {modelos.map((modelo) => (
+          <option key={modelo.idModelo} value={modelo.idModelo}>
+            {modelo.modelo}
+          </option>
+        ))}
+      </select>
+    </F.FormGroup>
+    
+    
+    <F.FormGroup>
+      <label>Status do Veículo:</label>
+      <select
+        name="idVeiculoStatus"
+        value={formData.idVeiculoStatus}
+        onChange={handleInputChange}
+        required
+      >
+        <option value="">Selecione o Status</option>
+        {veiculoStatusList.map((status) => (
+          <option key={status.idVeiculoStatus} value={status.idVeiculoStatus}>
+            {status.statusVeiculo}
+          </option>
+        ))}
+      </select>
+    </F.FormGroup>
+  </F.Row>
+
+  <F.Row>
+  <F.FormGroup>
+      <label>KM Atual:</label>
+      <input
+        type="number"
+        name="kmAtual"
+        value={formData.kmAtual}
+        onChange={handleInputChange}
+        required
+      />
+    </F.FormGroup>
+  
+    <F.FormGroup>
+      <label>Vida Útil (km):</label>
+      <input
+        type="number"
+        name="vidaUtilKm"
+        value={formData.vidaUtilKm}
+        onChange={handleInputChange}
+        required
+      />
+    </F.FormGroup>
+    <F.FormGroup>
+      <label>Distância Diária (km):</label>
+      <input
+        type="number"
+        name="distanciaDiaria"
+        value={formData.distanciaDiaria}
+        onChange={handleInputChange}
+        required
+      />
+    </F.FormGroup>
+    
+  </F.Row>
+
+  <F.SubmitButton type="submit">Cadastrar Veículo</F.SubmitButton>
+</F.FormContainer>
+
   );
 };
 

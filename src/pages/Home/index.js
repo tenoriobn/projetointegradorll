@@ -10,7 +10,7 @@ const Home = () => {
   const { signout, user } = useAuth();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [activePage, setActivePage] = useState("home");
-  const [fontSize, setFontSize] = useState("16px");
+  const [fontSize, setFontSize] = useState("14px");
 
   // estado para gerenciar a mensagem do popup
   const [popupMessage, setPopupMessage] = useState("");
