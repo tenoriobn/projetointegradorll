@@ -1,0 +1,48 @@
+import api from "./api.js";
+
+export const searchVeiculoModelo = async (nomeModeloVeiculo) => {
+  try {
+    const response = await api.get(
+      `veiculos/search/modelo/${nomeModeloVeiculo}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar veiculo:", error);
+  }
+};
+
+export const searchVeiculoPlaca = async (placaloVeiculo) => {
+  try {
+    const response = await api.get(`veiculos/search/placa/${placaloVeiculo}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar veiculo:", error);
+  }
+};
+
+export const searchModelos = async () => {
+  try {
+    const response = await api.get("/veiculos/modelos/listar");
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar modelos de veículo:", error);
+  }
+};
+
+export const searchStatusVeiculo = async () => {
+  try {
+    const response = await api.get("/veiculos/status/listar");
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar status de veículo:", error);
+  }
+};
+
+export const cadastrarVeiculo = async (veiculoData) => {
+  try {
+    const response = await api.post("/veiculos/cadastrar", veiculoData);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao cadastrar veículo:", error);
+  }
+};

@@ -61,10 +61,7 @@ const ConsultarPessoa = ({ onSelectPessoa, onGoToCadastrar }) => {
       </C.List>
       {pessoas.length === 0 && !loading && validarCPF(nome) && (
         <C.ListItem onClick={() => onGoToCadastrar(nome)}>
-          <p>
-            Nenhuma pessoa encontrada. Clique aqui para cadastrar um novo
-            usuário.
-          </p>
+          <p>Nenhuma pessoa encontrada. Clique aqui para cadastrar {nome} .</p>
         </C.ListItem>
       )}
     </C.Container>

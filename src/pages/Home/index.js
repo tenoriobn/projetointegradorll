@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import CadastrarUsuario from "../CadastrarUsuario";
-import ConsultarPessoa from "../ConsultarPessoa";
+import CadastrarVeiculo from "../CadastrarVeiculo";
 import GerenciarUsuario from "../GerenciarUsuario";
 import Popup from "../Popup"; // Popup para exibir as mensagens
 import * as C from "./styles";
@@ -32,11 +31,8 @@ const Home = () => {
     }
   };
 
-  const handleUserCreated = () => {
+  const handleHome = () => {
     setActivePage("home");
-  };
-  const handleGoToCadastrar = () => {
-    setActivePage("cadastrarUsuario");
   };
 
   const increaseFontSize = () => {
@@ -49,11 +45,6 @@ const Home = () => {
     if (newSize >= 12) {
       setFontSize(`${newSize}px`);
     }
-  };
-
-  const handleUserQueried = (queriedUser) => {
-    // Ação a ser realizada após consultar o usuário
-    //console.log("Usuário consultado:", queriedUser);
   };
 
   // Função para exibir o popup
@@ -94,6 +85,15 @@ const Home = () => {
         >
           Gerenciar Usuario
         </C.SidebarLink>
+
+        <C.SidebarLink
+          as={Link}
+          to="#"
+          onClick={() => handlePageChange("cadastrarVeiculo")}
+        >
+          Gadastrar Veículo
+        </C.SidebarLink>
+
         <C.SidebarLink as={Link} to="#" onClick={handleSignout}>
           Sair
         </C.SidebarLink>
@@ -107,23 +107,16 @@ const Home = () => {
               <p>CPF: {user?.cpf}</p>
             </C.UserInfo>
           )}
-          {activePage === "cadastrarUsuario" && (
-            <CadastrarUsuario
-              onUserCreated={handleUserCreated}
-              fontSize={fontSize}
-              showPopupMessage={showPopupMessage} // Passando a função de exibir popup
-            />
-          )}
-          {activePage === "consultarPessoa" && (
-            <ConsultarPessoa
-              onUserQueried={handleUserQueried}
-              onGoToCadastrar={handleGoToCadastrar} // Passando a função
-              fontSize={fontSize}
-            />
-          )}
           {activePage === "gerenciarUsuario" && (
             <GerenciarUsuario
-              onUserCreated={handleUserCreated}
+              onUserCreated={handleHome}
+              fontSize={fontSize}
+              showPopupMessage={showPopupMessage}
+            />
+          )}
+          {activePage === "cadastrarVeiculo" && (
+            <CadastrarVeiculo
+              onUserCreated={handleHome}
               fontSize={fontSize}
               showPopupMessage={showPopupMessage}
             />
