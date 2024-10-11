@@ -23,7 +23,13 @@ const Home = () => {
   };
 
   const handlePageChange = (page) => {
-    setActivePage(page);
+    // Se o clique for na mesma página, force um re-render
+    if (activePage === page) {
+      setActivePage(""); // Reseta o estado para forçar o re-render
+      setTimeout(() => setActivePage(page), 0); // Reatribui após um ciclo de evento
+    } else {
+      setActivePage(page);
+    }
   };
 
   const handleUserCreated = () => {
