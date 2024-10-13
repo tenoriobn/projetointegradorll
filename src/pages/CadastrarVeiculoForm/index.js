@@ -5,18 +5,25 @@ import {
   searchModelos,
   searchStatusVeiculo,
 } from "../../services/veiculoService";
-import { useUser } from '../../contexts/UserContext';
+import { useUser } from "../../contexts/UserContext";
 import * as F from "./styles";
 
-const CadastrarVeiculoForm = ({ showPopupMessage, onFormSubmitted, veiculo, placa }) => {
+const CadastrarVeiculoForm = ({
+  showPopupMessage,
+  onFormSubmitted,
+  veiculo,
+  placa,
+  onUserCreated,
+}) => {
   const [modelos, setModelos] = useState([]);
   const [veiculoStatusList, setVeiculoStatusList] = useState([]);
   const idUsuario = useUser(); // Acessando o idUsuario do contexto
-  
+
   // Inicializa NewVeiculo com base na presença do veiculo
   const [NewVeiculo, setNewVeiculo] = useState({
+    idVeiculo: veiculo ? veiculo.idVeiculo : null,
     ano: veiculo ? veiculo.ano : "",
-    placa: veiculo ? veiculo.placa : (placa && placa.trim() !== "" ? placa : ""), // Inicializa com a placa se fornecida
+    placa: veiculo ? veiculo.placa : placa && placa.trim() !== "" ? placa : "", // Inicializa com a placa se fornecida
     dataAquisicao: veiculo ? veiculo.dataAquisicao : "",
     distanciaDiaria: veiculo ? veiculo.distanciaDiaria : "",
     idModelo: veiculo ? veiculo.idModelo : "",
@@ -36,7 +43,11 @@ const CadastrarVeiculoForm = ({ showPopupMessage, onFormSubmitted, veiculo, plac
         setModelos(modelosResponse);
         setVeiculoStatusList(statusResponse);
       } catch (error) {
-        showPopupMessage("Erro", "Erro ao carregar dados de modelos ou status", "error");
+        showPopupMessage(
+          "Erro",
+          "Erro ao carregar dados de modelos ou status",
+          "error"
+        );
       }
     };
 
@@ -57,14 +68,23 @@ const CadastrarVeiculoForm = ({ showPopupMessage, onFormSubmitted, veiculo, plac
       if (veiculo) {
         // Se estiver editando, chama a função de atualização
         await atualizarVeiculo(NewVeiculo);
-        showPopupMessage("Sucesso", "Veículo atualizado com sucesso!", "success");
+        showPopupMessage(
+          "Sucesso",
+          "Veículo atualizado com sucesso!",
+          "success"
+        );
       } else {
         // Caso contrário, chama a função de cadastro
         await cadastrarVeiculo(NewVeiculo);
-        showPopupMessage("Sucesso", "Veículo cadastrado com sucesso!", "success");
+        showPopupMessage(
+          "Sucesso",
+          "Veículo cadastrado com sucesso!",
+          "success"
+        );
       }
-       // Limpa o formulário após o cadastro
-       setNewVeiculo({
+      // Limpa o formulário após o cadastro
+      setNewVeiculo({
+        idVeiculo: null,
         ano: "",
         placa: "",
         dataAquisicao: "",
@@ -75,7 +95,7 @@ const CadastrarVeiculoForm = ({ showPopupMessage, onFormSubmitted, veiculo, plac
         vidaUtilKm: "",
         kmAtual: "",
       });
-      onFormSubmitted(); // Chama a função de callback para redirecionar ou executar outra ação
+      if (onUserCreated) onUserCreated(); // Chama a função de callback para redirecionar ou executar outra ação
     } catch (error) {
       showPopupMessage("Erro", "Erro ao salvar veículo", "error");
     }
@@ -144,7 +164,10 @@ const CadastrarVeiculoForm = ({ showPopupMessage, onFormSubmitted, veiculo, plac
           >
             <option value="">Selecione o Status</option>
             {veiculoStatusList.map((status) => (
-              <option key={status.idVeiculoStatus} value={status.idVeiculoStatus}>
+              <option
+                key={status.idVeiculoStatus}
+                value={status.idVeiculoStatus}
+              >
                 {status.statusVeiculo}
               </option>
             ))}
@@ -192,4 +215,4 @@ const CadastrarVeiculoForm = ({ showPopupMessage, onFormSubmitted, veiculo, plac
   );
 };
 
-export default CadastrarVeiculoForm; 
+export default CadastrarVeiculoForm;

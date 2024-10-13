@@ -4,7 +4,7 @@ import * as C from "../GerenciarUsuario/styles";
 
 import CadastrarVeiculoForm from "../CadastrarVeiculoForm";
 
-const CadastrarVeiculo = ({ showPopupMessage, onUserCreated }) => {
+const CadastrarVeiculo = ({ showPopupMessage }) => {
   const [activePage, setActivePage] = useState("consultarVeiculo");
   const [selectedVeiculo, setSelectedVeiculo] = useState(null);
   const [selectedPlaca, setSelectedPlaca] = useState("");
@@ -20,7 +20,6 @@ const CadastrarVeiculo = ({ showPopupMessage, onUserCreated }) => {
   };
 
   const handleFormSubmitted = () => {
-    onUserCreated();
     setActivePage("consultarVeiculo");
   };
 
@@ -40,6 +39,7 @@ const CadastrarVeiculo = ({ showPopupMessage, onUserCreated }) => {
           onFormSubmitted={handleFormSubmitted}
           veiculo={selectedVeiculo}
           placa={selectedPlaca}
+          onUserCreated={() => setActivePage("consultarVeiculo")}
         />
       )}
     </C.Container>

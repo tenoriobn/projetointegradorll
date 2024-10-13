@@ -13,7 +13,9 @@ export const searchVeiculoModelo = async (nomeModeloVeiculo) => {
 
 export const searchVeiculoPlaca = async (placaloVeiculo) => {
   try {
-    const response = await api.get(`veiculos/search/placaveiculo/${placaloVeiculo}`);
+    const response = await api.get(
+      `veiculos/search/placaveiculo/${placaloVeiculo}`
+    );
     return response.data;
   } catch (error) {
     throw new Error("Erro ao buscar veiculo:", error);
@@ -50,7 +52,7 @@ export const cadastrarVeiculo = async (veiculoData) => {
 
 export const atualizarVeiculo = async (veiculoData) => {
   try {
-    const response = await api.post("/veiculos/cadastrar", veiculoData);
+    const response = await api.put("/veiculos/atualizar", veiculoData);
     return response.data;
   } catch (error) {
     throw new Error("Erro ao cadastrar veículo:", error);
