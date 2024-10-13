@@ -12,11 +12,10 @@ export const Container = styled.div`
 export const Title = styled.h2`
   text-align: left;
   margin-bottom: 20px;
-  color: #333;
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
-  border-bottom: 1px solid #e3e6f0;
-  color: #046ee5;
+  border-bottom: 1px solid #c8cad0;
+  
 `;
 
 export const Form = styled.form`

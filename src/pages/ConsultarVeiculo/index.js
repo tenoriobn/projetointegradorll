@@ -3,7 +3,7 @@ import {
   searchVeiculoModelo,
   searchVeiculoPlaca,
 } from "../../services/veiculoService";
-import { verificarPlaca } from "../../utils/placaUtils";
+import { isPlaca,verificarPlaca } from "../../utils/placaUtils";
 import * as C from "../ConsultarPessoa/styles";
 
 const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
@@ -19,7 +19,7 @@ const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
         try {
           let resultado;
 
-          if (verificarPlaca(valorConsultado)) {
+          if (isPlaca(valorConsultado)) {
             resultado = await searchVeiculoPlaca(valorConsultado); // Busca pela placa
           } else {
             resultado = await searchVeiculoModelo(valorConsultado); // Busca pelo modelo
@@ -34,7 +34,12 @@ const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
         setVeiculos([]); // Corrigido para limpar o array quando a busca não for válida
       }
     };
-    if (valorConsultado.length > 2) fetchVeiculo();
+    // Se o valorConsultado for apagado ou tiver menos de 2 caracteres, limpa a lista
+    if (valorConsultado.length === 0) {
+      setVeiculos([]); // Limpa a lista de veículos se o campo input estiver vazio
+    } else if (valorConsultado.length > 2) {
+      fetchVeiculo(); // Faz a busca apenas quando há mais de 2 caracteres
+    }
   }, [valorConsultado]);
 
   return (
@@ -43,7 +48,7 @@ const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
         type="text"
         placeholder="Digite o modelo da moto ou placa"
         value={valorConsultado}
-        onChange={(e) => setValorConsultado(e.target.value)}
+        onChange={(e) => setValorConsultado(e.target.value.toUpperCase())}
       ></C.Input>
       {consultaVeiculoError && (
         <C.ErrorMessage>{consultaVeiculoError}</C.ErrorMessage>

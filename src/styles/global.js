@@ -43,11 +43,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h2 {
-    font-size: inherit; /* Mantém o tamanho de fonte herdado */
+    font-size: ${({ fontSize }) => fontSize * "0.1rem"}; 
+    color: #333;
+     /* Mantém o tamanho de fonte herdado font-size: inherit;*/
   }
   
    label {
-    font-size: ${({ fontSize }) => fontSize * "0.3rem"}; ; /* Tamanho do label padrão */
+    font-size: ${({ fontSize }) => fontSize * "0.2rem"};  /* Tamanho do label padrão */
   }
 `;
 

@@ -20,3 +20,12 @@ export const verificarPlaca = (placa) => {
   // Retorna false se a placa não tiver exatamente 7 caracteres
   return false;
 };
+
+//verifica se os quatro primeiros caracter tem formatos de placa
+export const  isPlaca = (str) => {
+   // Usa uma expressão regular para verificar os primeiros três caracteres
+    // e se o quarto caractere é um número
+    const regex = /^[A-Za-z]{3}\d.*$/;
+    
+    return regex.test(str);
+};

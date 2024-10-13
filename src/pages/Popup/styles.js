@@ -28,11 +28,19 @@ export const PopupContainer = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
+
+  transition: opacity 0.5s ease; /* Adiciona transição de opacidade */
+  opacity: 1; /* Opacidade padrão para o popup visível */
+  
+  /* Adicione uma classe ou propriedade condicional se precisar controlar a opacidade */
+  &.hidden {
+    opacity: 0; /* Opacidade para ocultar o popup */
+  }
 `;
 
 export const PopupMessage = styled.p`
   margin: 0;
-  font-size: 1.3em;
+ 
   padding-right: 30px; /* Espaço para o botão de fechar */
   padding-top: 5%;
   color: ${({ type }) =>
@@ -55,7 +63,7 @@ export const CloseButton = styled.button`
   }
 `;
 
-export const Title = styled.h1`
+export const Title = styled.h2`
   text-align: left;
   margin-bottom: 10px;
   color: #333;

@@ -5,6 +5,7 @@ export const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [idUsuario, setIdUsuario] = useState(null); // Estado para o idUsuario
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -18,11 +19,12 @@ export const AuthProvider = ({ children }) => {
   const signin = async (login, senha) => {
     try {
       const response = await api.post("/usuarios/authenticate", { login, senha });
-      const { usuario, cpf, token } = response.data;
+      const { usuario, cpf, token, idUsuario } = response.data;
       localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify({ usuario, cpf }));
+      localStorage.setItem("user", JSON.stringify({ usuario, cpf}));
       //api.defaults.headers.Authorization = `Bearer ${token}`;
       setUser({ usuario, cpf });
+      setIdUsuario(idUsuario);
       return "";
     } catch (error) {
       if (error.response) {
@@ -49,6 +51,7 @@ export const AuthProvider = ({ children }) => {
       console.error("Erro ao fazer logout:", error);
     }
     setUser(null);
+    setIdUsuario(null);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     api.defaults.headers.Authorization = undefined;
@@ -56,7 +59,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, signed: !!user, signin, signout }}
+      value={{ user, signed: !!user, idUsuario, signin, signout }}
     >
       {children}
     </AuthContext.Provider>

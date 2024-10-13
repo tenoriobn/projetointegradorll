@@ -4,10 +4,11 @@ import useAuth from "../../hooks/useAuth";
 import CadastrarVeiculo from "../CadastrarVeiculo";
 import GerenciarUsuario from "../GerenciarUsuario";
 import Popup from "../Popup"; // Popup para exibir as mensagens
+import { UserProvider } from '../../contexts/UserContext'; // Importando o UserProvider
 import * as C from "./styles";
 
 const Home = () => {
-  const { signout, user } = useAuth();
+  const { signout, user,idUsuario } = useAuth();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [activePage, setActivePage] = useState("home");
   const [fontSize, setFontSize] = useState("14px");
@@ -52,15 +53,18 @@ const Home = () => {
     setPopupMessage(message);
     setPopupType(type);
     setPopupTitle(title);
+    setTimeout(() => setPopupMessage(""), 2000); // Fecha o popup automaticamente após 3 segundos
   };
 
   return (
+    <UserProvider idUsuario={idUsuario}> {/* Envolvendo com o UserProvider */}
+
     <C.Container>
       <C.Header>
         <C.Title>MOTOCHEK</C.Title>
         <C.FontControls>
-          <C.FontButton onClick={increaseFontSize}>A+</C.FontButton>
-          <C.FontButton onClick={decreaseFontSize}>A-</C.FontButton>
+          <C.FontButton onClick={increaseFontSize} aria-label="Aumenta tamanho da fonte">A+</C.FontButton>
+          <C.FontButton onClick={decreaseFontSize} aria-label="Diminuir tamanho da fonte">A-</C.FontButton>
         </C.FontControls>
         <C.MenuButton
           onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
@@ -75,7 +79,7 @@ const Home = () => {
           to="#"
           onClick={() => handlePageChange("home")}
         >
-          Home
+          Home <span>&#10148;</span>
         </C.SidebarLink>
 
         <C.SidebarLink
@@ -83,7 +87,7 @@ const Home = () => {
           to="#"
           onClick={() => handlePageChange("gerenciarUsuario")}
         >
-          Gerenciar Usuario
+          Gerenciar Usuario <span>&#10148;</span>
         </C.SidebarLink>
 
         <C.SidebarLink
@@ -91,7 +95,7 @@ const Home = () => {
           to="#"
           onClick={() => handlePageChange("cadastrarVeiculo")}
         >
-          Gadastrar Veículo
+          Gadastrar Veículo <span>&#10148;</span>
         </C.SidebarLink>
 
         <C.SidebarLink as={Link} to="#" onClick={handleSignout}>
@@ -103,7 +107,7 @@ const Home = () => {
         <C.Content style={{ fontSize: fontSize }}>
           {activePage === "home" && (
             <C.UserInfo>
-              <h2>Bem-vindo, {user?.usuario}!</h2>
+              <h2>Bem-vindo, {user?.usuario}! </h2>
               <p>CPF: {user?.cpf}</p>
             </C.UserInfo>
           )}
@@ -134,6 +138,7 @@ const Home = () => {
         />
       )}
     </C.Container>
+    </UserProvider>
   );
 };
 

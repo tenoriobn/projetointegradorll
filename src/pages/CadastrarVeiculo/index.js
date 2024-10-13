@@ -7,6 +7,7 @@ import CadastrarVeiculoForm from "../CadastrarVeiculoForm";
 const CadastrarVeiculo = ({ showPopupMessage, onUserCreated }) => {
   const [activePage, setActivePage] = useState("consultarVeiculo");
   const [selectedVeiculo, setSelectedVeiculo] = useState(null);
+  const [selectedPlaca, setSelectedPlaca] = useState("");
 
   const handleVeiculoSelected = (veiculo) => {
     setSelectedVeiculo(veiculo);
@@ -14,6 +15,7 @@ const CadastrarVeiculo = ({ showPopupMessage, onUserCreated }) => {
   };
 
   const handleGoToCadastrar = (placa) => {
+    setSelectedPlaca(placa);
     setActivePage("cadastrarVeiculoForm");
   };
 
@@ -24,7 +26,7 @@ const CadastrarVeiculo = ({ showPopupMessage, onUserCreated }) => {
 
   return (
     <C.Container>
-      <C.Title>Cadastrar Veículo</C.Title>
+      <C.Title>&#8649; Cadastrar Veículo</C.Title>
       {activePage === "consultarVeiculo" && (
         <ConsultarVeiculo
           showPopupMessage={showPopupMessage}
@@ -36,6 +38,8 @@ const CadastrarVeiculo = ({ showPopupMessage, onUserCreated }) => {
         <CadastrarVeiculoForm
           showPopupMessage={showPopupMessage}
           onFormSubmitted={handleFormSubmitted}
+          veiculo={selectedVeiculo}
+          placa={selectedPlaca}
         />
       )}
     </C.Container>
