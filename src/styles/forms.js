@@ -21,6 +21,9 @@ export const Row = styled.div`
     gap: 1rem; /* Reduz o espaçamento entre os campos em telas menores */
   }
 `;
+export const Input = styled.input`
+  /* estilos que agora estão no global.js */
+`;
 
 export const FormGroup = styled.div`
   flex: 1; /* Faz com que os campos se expandam igualmente */
@@ -48,3 +51,5 @@ export const SubmitButton = styled.button`
   padding: 0.8rem 1.5rem; /* Padding ajustado */
   align-self: flex-end; /* Alinha o botão à direita */
 `;
+
+export const Title = styled.h2``;

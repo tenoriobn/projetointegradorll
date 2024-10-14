@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 
-import Button from "../../components/Button";
+
+
 import {
   createPesrsoAndUser,
   generateUserAndPassword,
   resetPassword,
   searchUsuarioIdPessoa,
 } from "../../services/userService";
-import * as C from "./styles";
+import * as C from "../../styles/forms";
 
-const CadastrarUsuario = ({ pessoa, cpf, onUserCreated, showPopupMessage  }) => {
+const CadastrarUsuario = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
   const [newUser, setNewUser] = useState({
     nome: "",
     cpf: cpf || "",
@@ -111,7 +112,6 @@ const CadastrarUsuario = ({ pessoa, cpf, onUserCreated, showPopupMessage  }) => 
         );
 
         if (onUserCreated) onUserCreated();
-
       } else if (action === "reset") {
         await resetPassword(newUser.idPessoa); // função para resetar senha
         //alert("Senha resetada com sucesso!");
@@ -121,7 +121,6 @@ const CadastrarUsuario = ({ pessoa, cpf, onUserCreated, showPopupMessage  }) => 
           "success"
         );
         if (onUserCreated) onUserCreated();
-      
       }
     } catch (error) {
       //alert("Erro ao processar a ação de senha: " + error.message);
@@ -134,51 +133,54 @@ const CadastrarUsuario = ({ pessoa, cpf, onUserCreated, showPopupMessage  }) => 
   };
 
   return (
-    <C.Content>
+    <C.FormContainer onSubmit={handleSubmit}>
       <C.Title>{tituloForm}</C.Title>
-      <C.Form onSubmit={handleSubmit}>
-        <C.Input
-          type="text"
-          placeholder="Nome"
-          value={newUser.nome}
-          onChange={(e) => setNewUser({ ...newUser, nome: e.target.value })}
-          required
-        />
-        <C.Input
-          type="text"
-          placeholder="CPF"
-          value={newUser.cpf}
-          onChange={(e) => setNewUser({ ...newUser, cpf: e.target.value })}
-          required
-          readOnly={!!cpf || isEditing}
-        />
-        <C.Input
-          type="text"
-          placeholder="RG"
-          value={newUser.rg}
-          onChange={(e) => setNewUser({ ...newUser, rg: e.target.value })}
-          required
-        />
-        {/* Se isEditing for true, exibe o botão para gerar ou resetar senha */}
-        {isEditing ? (
-          <C.AlignRight>
-            <Button
-              Text={buttonText} // Usando o texto já calculado
-              Type="button"
-              onClick={handlePasswordAction} // Ação para gerar ou resetar senha
-            />
-          </C.AlignRight>
-        ) : (
-          // Se isEditing for false, exibe o botão de submissão do formulário
-          <C.AlignRight>
-            <Button
-              Text="Cadastrar Usuário" // Exibe o botão de cadastro
-              Type="submit"
-            />
-          </C.AlignRight>
-        )}
-      </C.Form>
-    </C.Content>
+      <C.Row>
+        <C.FormGroup>
+          <label>Nome:</label>
+          <C.Input
+            type="text"
+            placeholder="Nome"
+            value={newUser.nome}
+            onChange={(e) => setNewUser({ ...newUser, nome: e.target.value })}
+            required
+          />
+        </C.FormGroup>
+      </C.Row>
+      <C.Row>
+        <C.FormGroup>
+          <label>CPF:</label>
+          <C.Input
+            type="text"
+            placeholder="CPF"
+            value={newUser.cpf}
+            onChange={(e) => setNewUser({ ...newUser, cpf: e.target.value })}
+            required
+            readOnly={!!cpf || isEditing}
+          />
+        </C.FormGroup>
+        <C.FormGroup>
+          <label>Rg:</label>
+          <C.Input
+            type="text"
+            placeholder="RG"
+            value={newUser.rg}
+            onChange={(e) => setNewUser({ ...newUser, rg: e.target.value })}
+            required
+          />
+        </C.FormGroup>
+      </C.Row>
+
+      {/* Se isEditing for true, exibe o botão para gerar ou resetar senha */}
+      {isEditing ? (
+        <C.SubmitButton type="button" onClick={handlePasswordAction}>
+          {buttonText}
+        </C.SubmitButton>
+      ) : (
+        // Se isEditing for false, exibe o botão de submissão do formulário
+        <C.SubmitButton type="submit">Cadastrar Usuário</C.SubmitButton>
+      )}
+    </C.FormContainer>
   );
 };
 

@@ -4,14 +4,14 @@ import useAuth from "../../hooks/useAuth";
 import CadastrarVeiculo from "../CadastrarVeiculo";
 import GerenciarUsuario from "../GerenciarUsuario";
 import Popup from "../Popup"; // Popup para exibir as mensagens
-import { UserProvider } from '../../contexts/UserContext'; // Importando o UserProvider
-import * as C from "./styles";
+import { UserProvider } from "../../contexts/UserContext"; // Importando o UserProvider
+import * as C from "../../styles/home";
 
 const Home = () => {
-  const { signout, user,idUsuario } = useAuth();
+  const { signout, user, idUsuario } = useAuth();
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [activePage, setActivePage] = useState("home");
-  const [fontSize, setFontSize] = useState("14px");
+  const [fontSize, setFontSize] = useState("13px");
 
   // estado para gerenciar a mensagem do popup
   const [popupMessage, setPopupMessage] = useState("");
@@ -57,87 +57,98 @@ const Home = () => {
   };
 
   return (
-    <UserProvider idUsuario={idUsuario}> {/* Envolvendo com o UserProvider */}
+    <UserProvider idUsuario={idUsuario}>
+      {" "}
+      {/* Envolvendo com o UserProvider */}
+      <C.Container>
+        <C.Header>
+          <C.Title>MOTOCHEK</C.Title>
+          <C.FontControls>
+            <C.FontButton
+              onClick={increaseFontSize}
+              aria-label="Aumenta tamanho da fonte"
+            >
+              A+
+            </C.FontButton>
+            <C.FontButton
+              onClick={decreaseFontSize}
+              aria-label="Diminuir tamanho da fonte"
+            >
+              A-
+            </C.FontButton>
+          </C.FontControls>
+          <C.MenuButton
+            onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+          >
+            ☰
+          </C.MenuButton>
+        </C.Header>
 
-    <C.Container>
-      <C.Header>
-        <C.Title>MOTOCHEK</C.Title>
-        <C.FontControls>
-          <C.FontButton onClick={increaseFontSize} aria-label="Aumenta tamanho da fonte">A+</C.FontButton>
-          <C.FontButton onClick={decreaseFontSize} aria-label="Diminuir tamanho da fonte">A-</C.FontButton>
-        </C.FontControls>
-        <C.MenuButton
-          onClick={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
-        >
-          ☰
-        </C.MenuButton>
-      </C.Header>
+        <C.Sidebar style={{ fontSize: fontSize }}>
+          <C.SidebarLink
+            as={Link}
+            to="#"
+            onClick={() => handlePageChange("home")}
+          >
+            Home <span>&#10148;</span>
+          </C.SidebarLink>
 
-      <C.Sidebar style={{ fontSize: fontSize }}>
-        <C.SidebarLink
-          as={Link}
-          to="#"
-          onClick={() => handlePageChange("home")}
-        >
-          Home <span>&#10148;</span>
-        </C.SidebarLink>
+          <C.SidebarLink
+            as={Link}
+            to="#"
+            onClick={() => handlePageChange("gerenciarUsuario")}
+          >
+            Gerenciar Usuario <span>&#10148;</span>
+          </C.SidebarLink>
 
-        <C.SidebarLink
-          as={Link}
-          to="#"
-          onClick={() => handlePageChange("gerenciarUsuario")}
-        >
-          Gerenciar Usuario <span>&#10148;</span>
-        </C.SidebarLink>
+          <C.SidebarLink
+            as={Link}
+            to="#"
+            onClick={() => handlePageChange("cadastrarVeiculo")}
+          >
+            Gadastrar Veículo <span>&#10148;</span>
+          </C.SidebarLink>
 
-        <C.SidebarLink
-          as={Link}
-          to="#"
-          onClick={() => handlePageChange("cadastrarVeiculo")}
-        >
-          Gadastrar Veículo <span>&#10148;</span>
-        </C.SidebarLink>
+          <C.SidebarLink as={Link} to="#" onClick={handleSignout}>
+            Sair
+          </C.SidebarLink>
+        </C.Sidebar>
 
-        <C.SidebarLink as={Link} to="#" onClick={handleSignout}>
-          Sair
-        </C.SidebarLink>
-      </C.Sidebar>
+        <C.Main>
+          <C.Content style={{ fontSize: fontSize }}>
+            {activePage === "home" && (
+              <C.UserInfo>
+                <h2>Bem-vindo, {user?.usuario}! </h2>
+                <p>CPF: {user?.cpf}</p>
+              </C.UserInfo>
+            )}
+            {activePage === "gerenciarUsuario" && (
+              <GerenciarUsuario
+                onUserCreated={handleHome}
+                fontSize={fontSize}
+                showPopupMessage={showPopupMessage}
+              />
+            )}
+            {activePage === "cadastrarVeiculo" && (
+              <CadastrarVeiculo
+                onUserCreated={handleHome}
+                fontSize={fontSize}
+                showPopupMessage={showPopupMessage}
+              />
+            )}
+          </C.Content>
+        </C.Main>
 
-      <C.Main>
-        <C.Content style={{ fontSize: fontSize }}>
-          {activePage === "home" && (
-            <C.UserInfo>
-              <h2>Bem-vindo, {user?.usuario}! </h2>
-              <p>CPF: {user?.cpf}</p>
-            </C.UserInfo>
-          )}
-          {activePage === "gerenciarUsuario" && (
-            <GerenciarUsuario
-              onUserCreated={handleHome}
-              fontSize={fontSize}
-              showPopupMessage={showPopupMessage}
-            />
-          )}
-          {activePage === "cadastrarVeiculo" && (
-            <CadastrarVeiculo
-              onUserCreated={handleHome}
-              fontSize={fontSize}
-              showPopupMessage={showPopupMessage}
-            />
-          )}
-        </C.Content>
-      </C.Main>
-
-      {/* Exibe o Popup apenas se houver uma mensagem */}
-      {popupMessage && (
-        <Popup
-          title={popupTitle}
-          message={popupMessage}
-          type={popupType}
-          onClose={() => setPopupMessage("")} // Fechar o popup ao clicar no botão de fechar
-        />
-      )}
-    </C.Container>
+        {/* Exibe o Popup apenas se houver uma mensagem */}
+        {popupMessage && (
+          <Popup
+            title={popupTitle}
+            message={popupMessage}
+            type={popupType}
+            onClose={() => setPopupMessage("")} // Fechar o popup ao clicar no botão de fechar
+          />
+        )}
+      </C.Container>
     </UserProvider>
   );
 };

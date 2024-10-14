@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
+
   * {
     margin: 0;
     padding: 0;
@@ -11,8 +12,9 @@ const GlobalStyle = createGlobalStyle`
     width: 100vw;
     height: 100vh;
     background-color: #f0f2f5;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: ${({ fontSize }) => fontSize || "1rem"}; /* Usa rem para tamanhos de fonte responsivos */
+    font-family: Helvetica,Arial,  sans-serif;
+    font-size: ${({ fontSize }) =>
+      fontSize || "1rem"}; /* Usa rem para tamanhos de fonte responsivos */ 
     transition: font-size 0.3s ease;
   }
 
@@ -47,10 +49,19 @@ const GlobalStyle = createGlobalStyle`
     color: #333;
      /* Mantém o tamanho de fonte herdado font-size: inherit;*/
   }
-  
-   label {
-    font-size: ${({ fontSize }) => fontSize * "0.2rem"};  /* Tamanho do label padrão */
+  h1 {
+    margin-bottom: 1rem;
+    font-size: inherit;
+    color: #fff;
+     /* Mantém o tamanho de fonte herdado font-size: inherit;*/
+  } 
+
+  label {
+    font-size: ${({ fontSize }) =>
+      fontSize * "0.17rem"};  /* Tamanho do label padrão */
   }
+
+  
 `;
 
 export default GlobalStyle;

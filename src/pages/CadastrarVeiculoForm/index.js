@@ -6,7 +6,7 @@ import {
   searchStatusVeiculo,
 } from "../../services/veiculoService";
 import { useUser } from "../../contexts/UserContext";
-import * as F from "./styles";
+import * as F from "./../../styles/forms";
 
 const CadastrarVeiculoForm = ({
   showPopupMessage,

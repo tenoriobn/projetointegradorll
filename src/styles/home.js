@@ -1,5 +1,10 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom"; // Import Link do react-router-dom
+//import { Title } from "./global"; // Importando o Title de global.js
+
+export const Title = styled.h1`
+  /* estilos que agora estão no global.js */
+`;
 
 export const Container = styled.div`
   display: grid;
@@ -23,11 +28,6 @@ export const Main = styled.main`
   grid-area: main;
   padding: 1.25rem; /* 1.25rem = 20px */
   overflow-y: auto;
-`;
-
-export const Title = styled.h1`
-  font-size: 1.125rem; /* 1.125rem = 18px */
-  margin: 0;
 `;
 
 export const MenuButton = styled.button`
