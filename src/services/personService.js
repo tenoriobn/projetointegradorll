@@ -26,3 +26,13 @@ export const searchPessoaIdPessoa = async (idPessoa) => {
     throw new Error("Erro ao buscar usuario:", error);
   }
 };
+
+export const searchCargo = async () => {
+  try {
+    const response = await api.get("/pessoas/search/cargo");
+
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar modelos de veículo:", error);
+  }
+};

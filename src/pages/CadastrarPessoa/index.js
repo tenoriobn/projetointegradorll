@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  createPesrsoAndUser,
   generateUserAndPassword,
   resetPassword,
 } from "../../services/userService";
 
-import { searchPessoaIdPessoa } from "../../services/personService";
+import { searchCargo } from "../../services/personService";
 import * as C from "../../styles/forms";
 
 const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
+  const [cargos, setCargos] = useState([]);
+  const [PersonId, setPersonId] = useState(null); // Estado para armazenar o id do usuário
+  const [action, setAction] = useState(""); // Estado para armazenar a ação
   const [newPerson, setNewPerson] = useState({
     nome: pessoa ? pessoa.cpf : "",
     cpf: pessoa ? pessoa.cpf : cpf && cpf.trim() !== "" ? cpf : "",
@@ -18,36 +20,21 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
     cargo: pessoa ? pessoa.cargo : "",
     idCargo: pessoa ? pessoa.idCargo : null,
   });
-  const [PersonId, setPersonId] = useState(null); // Estado para armazenar o id do usuário
-  const [action, setAction] = useState(""); // Estado para armazenar a ação ("gerar" ou "resetar" senha)
 
   useEffect(() => {
-    const fetchUser = async () => {
-     
+    const fetchData = async () => {
+      try {
+        // Busca modelos e status de veículo
+        const cargosResponse = await searchCargo();
 
-        try {
-          const person = await searchPessoaIdPessoa(pessoa.idPessoa);
-          setPersonId(person.idPessoa); // Armazena o id da pessoa
-          if (pess.idUsuario === null) {
-            setAction("generate"); // Ação será "Gerar Senha"
-          } else {
-            setAction("reset"); // Ação será "Resetar Senha"
-          }
-        } catch (error) {
-          //console.error(error);
-          showPopupMessage(
-            "Gerenciar Pessoa",
-            "Erro ao buscar pessoa.",
-            "error"
-          );
-        }
-      } else if (cpf) {
-        setNewUser((prevState) => ({ ...prevState, cpf: cpf }));
+        setCargos(cargosResponse);
+      } catch (error) {
+        showPopupMessage("Erro", "Erro ao carregar dados dos cargos", "error");
       }
     };
 
-    fetchUser();
-  }, [pessoa, cpf, showPopupMessage]);
+    fetchData();
+  }, [showPopupMessage]);
 
   // Lógica para determinar o texto do botão e a ação
   let buttonText;
@@ -56,15 +43,10 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
 
   if (pessoa) {
     isEditing = true; // Permitindo editar
-    if (userId === null) {
-      tituloForm = "Gerar Usúario e Senha";
-      buttonText = "Gerar Senha"; // Usuário não cadastrado mas pessoa esta cadastrada
-    } else if (userId) {
-      tituloForm = "Resetar Senha do Usúario";
-      buttonText = "Resetar Senha"; // Usuário e pesssoa já cadastrado
-    }
+    tituloForm = "Editar dados Pessoa";
+    buttonText = "Editar Pessoa";
   } else if (cpf) {
-    // Não há pessoa, somente CPF informado, cadastra-se um novo usuário e pessoa
+    // Não há pessoa, somente CPF informado, cadastra-se uma nova e pessoa
     tituloForm = "Cadastrar Pessoa";
     buttonText = "Cadastrar Pessoa";
     isEditing = false; // Não permite edição ainda, é um cadastro
@@ -73,8 +55,8 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!userId) {
-        await createPesrsoAndUser(newUser); //função para criar pessoa e usuario
+      if (!PersonId) {
+        //await createPesrsoAndUser(newUser); //função para criar pessoa e usuario
         showPopupMessage(
           "Gerenciar Usuario",
           "Usuário criado com sucesso!",
@@ -97,7 +79,7 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
   const handlePasswordAction = async () => {
     try {
       if (action === "generate") {
-        await generateUserAndPassword(newUser.idPessoa); // funcao para gerar usuario quando a pessoa ja existe
+        await generateUserAndPassword(newPerson.idPessoa); // funcao para gerar usuario quando a pessoa ja existe
         //alert("Senha gerada com sucesso!");
         showPopupMessage(
           "Gerenciar Usuario",
@@ -107,7 +89,7 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
 
         if (onUserCreated) onUserCreated();
       } else if (action === "reset") {
-        await resetPassword(newUser.idPessoa); // função para resetar senha
+        await resetPassword(newPerson.idPessoa); // função para resetar senha
         //alert("Senha resetada com sucesso!");
         showPopupMessage(
           "Gerenciar Usuario",
@@ -125,6 +107,13 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
       );
     }
   };
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewPerson((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   return (
     <C.FormContainer onSubmit={handleSubmit}>
@@ -135,8 +124,10 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
           <C.Input
             type="text"
             placeholder="Nome"
-            value={newUser.nome}
-            onChange={(e) => setNewUser({ ...newUser, nome: e.target.value })}
+            value={newPerson.nome}
+            onChange={(e) =>
+              setNewPerson({ ...newPerson, nome: e.target.value })
+            }
             required
           />
         </C.FormGroup>
@@ -147,8 +138,10 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
           <C.Input
             type="text"
             placeholder="CPF"
-            value={newUser.cpf}
-            onChange={(e) => setNewUser({ ...newUser, cpf: e.target.value })}
+            value={newPerson.cpf}
+            onChange={(e) =>
+              setNewPerson({ ...newPerson, cpf: e.target.value })
+            }
             required
             readOnly={!!cpf || isEditing}
           />
@@ -158,10 +151,29 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
           <C.Input
             type="text"
             placeholder="RG"
-            value={newUser.rg}
-            onChange={(e) => setNewUser({ ...newUser, rg: e.target.value })}
+            value={newPerson.rg}
+            onChange={(e) => setNewPerson({ ...newPerson, rg: e.target.value })}
             required
           />
+        </C.FormGroup>
+      </C.Row>
+
+      <C.Row>
+        <C.FormGroup>
+          <label>Cargo:</label>
+          <select
+            name="idCargo"
+            value={newPerson.idCargo}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Selecione o Cargo</option>
+            {cargos.map((cargo) => (
+              <option key={cargo.idCargo} value={cargo.cargo}>
+                {cargo.cargo}
+              </option>
+            ))}
+          </select>
         </C.FormGroup>
       </C.Row>
 
