@@ -31,7 +31,7 @@ export const PopupContainer = styled.div`
 
   transition: opacity 0.5s ease; /* Adiciona transição de opacidade */
   opacity: 1; /* Opacidade padrão para o popup visível */
-  
+
   /* Adicione uma classe ou propriedade condicional se precisar controlar a opacidade */
   &.hidden {
     opacity: 0; /* Opacidade para ocultar o popup */
@@ -40,7 +40,7 @@ export const PopupContainer = styled.div`
 
 export const PopupMessage = styled.p`
   margin: 0;
- 
+
   padding-right: 30px; /* Espaço para o botão de fechar */
   padding-top: 5%;
   color: ${({ type }) =>

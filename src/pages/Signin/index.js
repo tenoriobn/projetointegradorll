@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
 import Input from "../../components/Input";
 import useAuth from "../../hooks/useAuth";
-import * as C from "./styles";
+import * as C from "../../styles/signin";
 
 const Signin = () => {
   const { signin } = useAuth();

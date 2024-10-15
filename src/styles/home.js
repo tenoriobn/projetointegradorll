@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { Link } from "react-router-dom"; // Import Link do react-router-dom
+import styled from "styled-components";
 //import { Title } from "./global"; // Importando o Title de global.js
 
 export const Title = styled.h1`
@@ -15,7 +15,7 @@ export const Container = styled.div`
   grid-template-rows: 3.75rem 1fr; /* 3.75rem = 60px */
   height: 100vh;
 
-  @media (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     grid-template-areas:
       "header"
       "main";
@@ -38,7 +38,7 @@ export const MenuButton = styled.button`
   font-size: 1.5rem; /* 1.5rem = 24px */
   cursor: pointer;
 
-  @media (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     display: block;
   }
 `;
@@ -83,11 +83,11 @@ export const SidebarLink = styled(Link)`
 
 export const Sidebar = styled.nav`
   width: 14rem; /* 15rem = 240px */
-  background-color: #fff;
+
   padding: 1.25rem; /* 1.25rem = 20px */
   box-shadow: 0.125rem 0 0.3125rem rgba(0, 0, 0, 0.1); /* 0.125rem = 2px, 0.3125rem = 5px */
 
-  @media (max-width: 768px) {
+  @media only screen and (max-width: 768px) {
     width: 100%;
     display: none;
   }

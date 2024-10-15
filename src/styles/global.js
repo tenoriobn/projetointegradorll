@@ -2,6 +2,10 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
 
+
+
+     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
   * {
     margin: 0;
     padding: 0;
@@ -12,7 +16,11 @@ const GlobalStyle = createGlobalStyle`
     width: 100vw;
     height: 100vh;
     background-color: #f0f2f5;
-    font-family: Helvetica,Arial,  sans-serif;
+    font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     font-size: ${({ fontSize }) =>
       fontSize || "1rem"}; /* Usa rem para tamanhos de fonte responsivos */ 
     transition: font-size 0.3s ease;
@@ -47,6 +55,8 @@ const GlobalStyle = createGlobalStyle`
   h2 {
     font-size: ${({ fontSize }) => fontSize * "0.1rem"}; 
     color: #333;
+
+    
      /* Mantém o tamanho de fonte herdado font-size: inherit;*/
   }
   h1 {

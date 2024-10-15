@@ -1,34 +1,34 @@
 import React, { useState } from "react";
 import * as C from "../../styles/gerenciar";
-import CadastrarUsuario from "../CadastrarUsuario";
+import CadastrarPessoa from "../CadastrarPessoa";
 import ConsultarPessoa from "../ConsultarPessoa";
 
-const GerenciarUsuario = ({ showPopupMessage }) => {
+const GerenciarPessoa = ({ showPopupMessage }) => {
   const [activePage, setActivePage] = useState("consultarPessoa");
   const [selectedPessoa, setSelectedPessoa] = useState(null);
   const [cpfToRegister, setCpfToRegister] = useState("");
 
   const handlePessoaSelected = (pessoa) => {
     setSelectedPessoa(pessoa);
-    setActivePage("cadastrarUsuario");
+    setActivePage("cadastrarPessoa");
   };
 
   const handleGoToCadastrar = (cpf) => {
     setCpfToRegister(cpf);
-    setActivePage("cadastrarUsuario");
+    setActivePage("cadastrarPessoa");
   };
 
   return (
     <C.Container>
-      <C.Title>Gerenciar Usuario</C.Title>
+      <C.Title>Gerenciar Pessoa</C.Title>
       {activePage === "consultarPessoa" && (
         <ConsultarPessoa
           onSelectPessoa={handlePessoaSelected}
           onGoToCadastrar={handleGoToCadastrar}
         />
       )}
-      {activePage === "cadastrarUsuario" && (
-        <CadastrarUsuario
+      {activePage === "cadastrarPessoa" && (
+        <CadastrarPessoa
           pessoa={selectedPessoa}
           cpf={cpfToRegister}
           onUserCreated={() => setActivePage("consultarPessoa")}
@@ -39,4 +39,4 @@ const GerenciarUsuario = ({ showPopupMessage }) => {
   );
 };
 
-export default GerenciarUsuario;
+export default GerenciarPessoa;

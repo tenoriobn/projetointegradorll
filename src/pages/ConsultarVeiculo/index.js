@@ -3,8 +3,8 @@ import {
   searchVeiculoModelo,
   searchVeiculoPlaca,
 } from "../../services/veiculoService";
-import { isPlaca,verificarPlaca } from "../../utils/placaUtils";
-import * as C from "../ConsultarPessoa/styles";
+import * as C from "../../styles/consulta";
+import { isPlaca, verificarPlaca } from "../../utils/placaUtils";
 
 const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
   const [valorConsultado, setValorConsultado] = useState("");
@@ -55,6 +55,12 @@ const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
       )}
       {loading && <p>Carregando ...</p>}
       <C.List>
+        {veiculos.length > 0 && (
+          <C.ListItemCab>
+            <p>Veículo</p>
+            <p>Placa</p>
+          </C.ListItemCab>
+        )}
         {veiculos.map((veiculo) => (
           <C.ListItem
             key={veiculo.idVeiculo}

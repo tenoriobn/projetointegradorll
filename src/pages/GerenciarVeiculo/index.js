@@ -1,8 +1,7 @@
 import { useState } from "react";
-import ConsultarVeiculo from "../ConsultarVeiculo";
-import * as C from "../GerenciarUsuario/styles";
-
+import * as C from "../../styles/gerenciar";
 import CadastrarVeiculoForm from "../CadastrarVeiculoForm";
+import ConsultarVeiculo from "../ConsultarVeiculo";
 
 const CadastrarVeiculo = ({ showPopupMessage }) => {
   const [activePage, setActivePage] = useState("consultarVeiculo");
@@ -25,7 +24,7 @@ const CadastrarVeiculo = ({ showPopupMessage }) => {
 
   return (
     <C.Container>
-      <C.Title>&#8649; Cadastrar Veículo</C.Title>
+      <C.Title>Cadastrar Veículo</C.Title>
       {activePage === "consultarVeiculo" && (
         <ConsultarVeiculo
           showPopupMessage={showPopupMessage}

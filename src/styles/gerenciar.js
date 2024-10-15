@@ -15,7 +15,6 @@ export const Title = styled.h2`
   padding: 0.75rem 1.25rem;
   margin-bottom: 0;
   border-bottom: 1px solid #c8cad0;
-  
 `;
 
 export const Form = styled.form`

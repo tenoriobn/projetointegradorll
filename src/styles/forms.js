@@ -41,7 +41,7 @@ export const FormGroup = styled.div`
     width: 100%; /* Certifica-se de que os inputs e selects ocupem toda a largura disponível */
   }
 
-  @media (max-width: 768px) {
+  @media only screen and(max-width: 768px) {
     min-width: 100%; /* Em telas menores, os campos ocupam toda a largura */
   }
 `;

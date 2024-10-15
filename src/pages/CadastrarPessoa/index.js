@@ -4,35 +4,31 @@ import {
   createPesrsoAndUser,
   generateUserAndPassword,
   resetPassword,
-  searchUsuarioIdPessoa,
 } from "../../services/userService";
+
+import { searchPessoaIdPessoa } from "../../services/personService";
 import * as C from "../../styles/forms";
 
-const CadastrarUsuario = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
-  const [newUser, setNewUser] = useState({
-    nome: "",
-    cpf: cpf || "",
-    rg: "",
-    idPessoa: "",
+const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
+  const [newPerson, setNewPerson] = useState({
+    nome: pessoa ? pessoa.cpf : "",
+    cpf: pessoa ? pessoa.cpf : cpf && cpf.trim() !== "" ? cpf : "",
+    rg: pessoa ? pessoa.rg : "",
+    idPessoa: pessoa ? pessoa.idPessoa : null,
+    cargo: pessoa ? pessoa.cargo : "",
+    idCargo: pessoa ? pessoa.idCargo : null,
   });
-  //const [createUserError, setCreateUserError] = useState("");
-  const [userId, setUserId] = useState(null); // Estado para armazenar o id do usuário
+  const [PersonId, setPersonId] = useState(null); // Estado para armazenar o id do usuário
   const [action, setAction] = useState(""); // Estado para armazenar a ação ("gerar" ou "resetar" senha)
 
   useEffect(() => {
     const fetchUser = async () => {
-      if (pessoa) {
-        setNewUser({
-          nome: pessoa.nome,
-          cpf: pessoa.cpf,
-          rg: pessoa.rg,
-          idPessoa: pessoa.idPessoa,
-        });
+     
 
         try {
-          const user = await searchUsuarioIdPessoa(pessoa.idPessoa);
-          setUserId(user.idUsuario); // Armazena o id do usuário
-          if (user.idUsuario === null) {
+          const person = await searchPessoaIdPessoa(pessoa.idPessoa);
+          setPersonId(person.idPessoa); // Armazena o id da pessoa
+          if (pess.idUsuario === null) {
             setAction("generate"); // Ação será "Gerar Senha"
           } else {
             setAction("reset"); // Ação será "Resetar Senha"
@@ -40,8 +36,8 @@ const CadastrarUsuario = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
         } catch (error) {
           //console.error(error);
           showPopupMessage(
-            "Gerenciar Usuario",
-            "Erro ao buscar o usuário.",
+            "Gerenciar Pessoa",
+            "Erro ao buscar pessoa.",
             "error"
           );
         }
@@ -69,8 +65,8 @@ const CadastrarUsuario = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
     }
   } else if (cpf) {
     // Não há pessoa, somente CPF informado, cadastra-se um novo usuário e pessoa
-    tituloForm = "Cadastrar Novo Usúario";
-    buttonText = "Cadastrar Usuário";
+    tituloForm = "Cadastrar Pessoa";
+    buttonText = "Cadastrar Pessoa";
     isEditing = false; // Não permite edição ainda, é um cadastro
   }
 
@@ -182,4 +178,4 @@ const CadastrarUsuario = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
   );
 };
 
-export default CadastrarUsuario;
+export default CadastrarPessoa;

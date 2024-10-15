@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import CadastrarVeiculo from "../CadastrarVeiculo";
-import GerenciarUsuario from "../GerenciarUsuario";
-import Popup from "../Popup"; // Popup para exibir as mensagens
 import { UserProvider } from "../../contexts/UserContext"; // Importando o UserProvider
+import useAuth from "../../hooks/useAuth";
 import * as C from "../../styles/home";
+import GerenciarPessoa from "../GerenciarPessoa";
+import GerenciarUsuario from "../GerenciarUsuario";
+import CadastrarVeiculo from "../GerenciarVeiculo";
+import Popup from "../Popup"; // Popup para exibir as mensagens
 
 const Home = () => {
   const { signout, user, idUsuario } = useAuth();
@@ -92,6 +93,13 @@ const Home = () => {
           >
             Home <span>&#10148;</span>
           </C.SidebarLink>
+          <C.SidebarLink
+            as={Link}
+            to="#"
+            onClick={() => handlePageChange("gerenciarPessoa")}
+          >
+            Gerenciar pessoa <span>&#10148;</span>
+          </C.SidebarLink>
 
           <C.SidebarLink
             as={Link}
@@ -106,7 +114,7 @@ const Home = () => {
             to="#"
             onClick={() => handlePageChange("cadastrarVeiculo")}
           >
-            Gadastrar Veículo <span>&#10148;</span>
+            Gerenciar Veículo <span>&#10148;</span>
           </C.SidebarLink>
 
           <C.SidebarLink as={Link} to="#" onClick={handleSignout}>
@@ -131,6 +139,13 @@ const Home = () => {
             )}
             {activePage === "cadastrarVeiculo" && (
               <CadastrarVeiculo
+                onUserCreated={handleHome}
+                fontSize={fontSize}
+                showPopupMessage={showPopupMessage}
+              />
+            )}
+            {activePage === "gerenciarPessoa" && (
+              <GerenciarPessoa
                 onUserCreated={handleHome}
                 fontSize={fontSize}
                 showPopupMessage={showPopupMessage}

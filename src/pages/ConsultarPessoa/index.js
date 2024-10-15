@@ -3,7 +3,7 @@ import {
   searchPersonCpf,
   searchPersonName,
 } from "../../services/personService";
-import * as C from "./styles";
+import * as C from "../../styles/consulta";
 
 const validarCPF = (cpf) => {
   return /^\d{11}$/.test(cpf);
@@ -23,6 +23,7 @@ const ConsultarPessoa = ({ onSelectPessoa, onGoToCadastrar }) => {
           const result = /^\d+$/.test(nome)
             ? await searchPersonCpf(nome)
             : await searchPersonName(nome);
+
           setPessoas(result);
         } catch (error) {
           setconsultaPessoaError(error.message);
@@ -33,7 +34,7 @@ const ConsultarPessoa = ({ onSelectPessoa, onGoToCadastrar }) => {
       }
     };
 
-    if (nome.length > 2) fetchPessoas();
+    fetchPessoas();
   }, [nome]);
 
   return (
@@ -49,6 +50,12 @@ const ConsultarPessoa = ({ onSelectPessoa, onGoToCadastrar }) => {
       )}
       {loading && <p>Carregando...</p>}
       <C.List>
+        {pessoas.length > 0 && (
+          <C.ListItemCab>
+            <p>Nome</p>
+            <p>CPF</p>
+          </C.ListItemCab>
+        )}
         {pessoas.map((pessoa) => (
           <C.ListItem
             key={pessoa.idPessoa}
