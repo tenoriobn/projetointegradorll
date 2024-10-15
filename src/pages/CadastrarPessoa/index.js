@@ -13,7 +13,7 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
   const [PersonId, setPersonId] = useState(null); // Estado para armazenar o id do usuário
   const [action, setAction] = useState(""); // Estado para armazenar a ação
   const [newPerson, setNewPerson] = useState({
-    nome: pessoa ? pessoa.cpf : "",
+    nome: pessoa ? pessoa.nome : "",
     cpf: pessoa ? pessoa.cpf : cpf && cpf.trim() !== "" ? cpf : "",
     rg: pessoa ? pessoa.rg : "",
     idPessoa: pessoa ? pessoa.idPessoa : null,
@@ -131,6 +131,22 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
             required
           />
         </C.FormGroup>
+        <C.FormGroup>
+          <label>Cargo:</label>
+          <select
+            name="idCargo"
+            value={newPerson.idCargo}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Selecione o Cargo</option>
+            {cargos.map((cargo) => (
+              <option key={cargo.idCargo} value={cargo.idCargo}>
+                {cargo.cargo}
+              </option>
+            ))}
+          </select>
+        </C.FormGroup>
       </C.Row>
       <C.Row>
         <C.FormGroup>
@@ -158,24 +174,7 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
         </C.FormGroup>
       </C.Row>
 
-      <C.Row>
-        <C.FormGroup>
-          <label>Cargo:</label>
-          <select
-            name="idCargo"
-            value={newPerson.idCargo}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="">Selecione o Cargo</option>
-            {cargos.map((cargo) => (
-              <option key={cargo.idCargo} value={cargo.cargo}>
-                {cargo.cargo}
-              </option>
-            ))}
-          </select>
-        </C.FormGroup>
-      </C.Row>
+      <C.Row></C.Row>
 
       {/* Se isEditing for true, exibe o botão para gerar ou resetar senha */}
       {isEditing ? (
