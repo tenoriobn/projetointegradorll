@@ -54,7 +54,7 @@ const Home = () => {
     setPopupMessage(message);
     setPopupType(type);
     setPopupTitle(title);
-    setTimeout(() => setPopupMessage(""), 2000); // Fecha o popup automaticamente após 3 segundos
+    setTimeout(() => setPopupMessage(""), 4000); // Fecha o popup automaticamente após 3 segundos
   };
 
   return (

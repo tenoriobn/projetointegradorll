@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  generateUserAndPassword,
-  resetPassword,
-} from "../../services/userService";
-
-import { searchCargo } from "../../services/personService";
+  createPerson,
+  searchCargo,
+  updatePerson,
+} from "../../services/personService";
 import * as C from "../../styles/forms";
 
 const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
   const [cargos, setCargos] = useState([]);
-  const [PersonId, setPersonId] = useState(null); // Estado para armazenar o id do usuário
   const [action, setAction] = useState(""); // Estado para armazenar a ação
   const [newPerson, setNewPerson] = useState({
     nome: pessoa ? pessoa.nome : "",
@@ -23,6 +21,11 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (pessoa) {
+        setAction("atualizar");
+      } else if (cpf) {
+        setAction("cadastrar");
+      }
       try {
         // Busca modelos e status de veículo
         const cargosResponse = await searchCargo();
@@ -34,77 +37,46 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
     };
 
     fetchData();
-  }, [showPopupMessage]);
+  }, [showPopupMessage, pessoa, cpf]);
 
   // Lógica para determinar o texto do botão e a ação
   let buttonText;
-  let isEditing = false;
   let tituloForm = "";
 
   if (pessoa) {
-    isEditing = true; // Permitindo editar
-    tituloForm = "Editar dados Pessoa";
+    tituloForm = "Editar Dados Pessoa";
     buttonText = "Editar Pessoa";
   } else if (cpf) {
     // Não há pessoa, somente CPF informado, cadastra-se uma nova e pessoa
-    tituloForm = "Cadastrar Pessoa";
+    tituloForm = "Cadastrar Dados Pessoa";
     buttonText = "Cadastrar Pessoa";
-    isEditing = false; // Não permite edição ainda, é um cadastro
   }
 
-  const handleSubmit = async (e) => {
+  const handlePersonAction = async (e) => {
     e.preventDefault();
     try {
-      if (!PersonId) {
-        //await createPesrsoAndUser(newUser); //função para criar pessoa e usuario
+      if (action === "cadastrar") {
+        await createPerson(newPerson); // funcao para gerar usuario quando a
         showPopupMessage(
           "Gerenciar Usuario",
-          "Usuário criado com sucesso!",
-          "success"
-        );
-
-        //alert("Usuário criado com sucesso!");
-        if (onUserCreated) onUserCreated();
-      }
-    } catch (error) {
-      showPopupMessage(
-        "Gerenciar Usuario",
-        "Erro ao criar usuário. Tente novamente.",
-        "error"
-      );
-      //setCreateUserError(error.message);
-    }
-  };
-
-  const handlePasswordAction = async () => {
-    try {
-      if (action === "generate") {
-        await generateUserAndPassword(newPerson.idPessoa); // funcao para gerar usuario quando a pessoa ja existe
-        //alert("Senha gerada com sucesso!");
-        showPopupMessage(
-          "Gerenciar Usuario",
-          "Senha gerada com sucesso!",
+          "Pessoa cadastrada com sucesso!",
           "success"
         );
 
         if (onUserCreated) onUserCreated();
-      } else if (action === "reset") {
-        await resetPassword(newPerson.idPessoa); // função para resetar senha
+      } else if (action === "atualizar") {
+        await updatePerson(newPerson); // função para resetar senha
         //alert("Senha resetada com sucesso!");
         showPopupMessage(
           "Gerenciar Usuario",
-          "Senha resetada com sucesso!",
+          "Dados atualizados com sucesso!",
           "success"
         );
         if (onUserCreated) onUserCreated();
       }
     } catch (error) {
       //alert("Erro ao processar a ação de senha: " + error.message);
-      showPopupMessage(
-        "Gerenciar Usuario",
-        "Erro ao processar a ação de senha." + error.message,
-        "error"
-      );
+      showPopupMessage("Gerenciar Usuario", "Erro ." + error.message, "error");
     }
   };
   const handleInputChange = (e) => {
@@ -116,7 +88,7 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
   };
 
   return (
-    <C.FormContainer onSubmit={handleSubmit}>
+    <C.FormContainer onSubmit={handlePersonAction}>
       <C.Title>{tituloForm}</C.Title>
       <C.Row>
         <C.FormGroup>
@@ -126,7 +98,7 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
             placeholder="Nome"
             value={newPerson.nome}
             onChange={(e) =>
-              setNewPerson({ ...newPerson, nome: e.target.value })
+              setNewPerson({ ...newPerson, nome: e.target.value.toUpperCase() })
             }
             required
           />
@@ -135,7 +107,7 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
           <label>Cargo:</label>
           <select
             name="idCargo"
-            value={newPerson.idCargo}
+            value={newPerson.idCargo || ""}
             onChange={handleInputChange}
             required
           >
@@ -156,10 +128,10 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
             placeholder="CPF"
             value={newPerson.cpf}
             onChange={(e) =>
-              setNewPerson({ ...newPerson, cpf: e.target.value })
+              setNewPerson({ ...newPerson, cpf: e.target.value.toUpperCase() })
             }
             required
-            readOnly={!!cpf || isEditing}
+            readOnly={true}
           />
         </C.FormGroup>
         <C.FormGroup>
@@ -168,23 +140,17 @@ const CadastrarPessoa = ({ pessoa, cpf, onUserCreated, showPopupMessage }) => {
             type="text"
             placeholder="RG"
             value={newPerson.rg}
-            onChange={(e) => setNewPerson({ ...newPerson, rg: e.target.value })}
+            onChange={(e) =>
+              setNewPerson({ ...newPerson, rg: e.target.value.toUpperCase() })
+            }
             required
           />
         </C.FormGroup>
       </C.Row>
 
-      <C.Row></C.Row>
-
-      {/* Se isEditing for true, exibe o botão para gerar ou resetar senha */}
-      {isEditing ? (
-        <C.SubmitButton type="button" onClick={handlePasswordAction}>
-          {buttonText}
-        </C.SubmitButton>
-      ) : (
-        // Se isEditing for false, exibe o botão de submissão do formulário
-        <C.SubmitButton type="submit">Cadastrar Usuário</C.SubmitButton>
-      )}
+      <C.Row>
+        <C.SubmitButton type="submit">{buttonText}</C.SubmitButton>
+      </C.Row>
     </C.FormContainer>
   );
 };
