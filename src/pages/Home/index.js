@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { UserProvider } from "../../contexts/UserContext"; // Importando o UserProvider
 import useAuth from "../../hooks/useAuth";
 import * as C from "../../styles/home";
+import CadastrarModelo from "../CadastrarModelo";
 import GerenciarPessoa from "../GerenciarPessoa";
 import GerenciarUsuario from "../GerenciarUsuario";
 import CadastrarVeiculo from "../GerenciarVeiculo";
@@ -18,6 +19,7 @@ const Home = () => {
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState(""); // Tipo de popup (sucesso ou erro)
   const [popupTitle, setPopupTitle] = useState("");
+  const [isGerenciarVeiculoOpen, setIsGerenciarVeiculoOpen] = useState(false);
 
   const handleSignout = () => {
     signout();
@@ -31,10 +33,14 @@ const Home = () => {
     } else {
       setActivePage(page);
     }
+    if (page !== "cadastrarVeiculo" && page !== "cadastrarModelo") {
+      setIsGerenciarVeiculoOpen(false);
+    }
   };
 
   const handleHome = () => {
     setActivePage("home");
+    setIsGerenciarVeiculoOpen(false);
   };
 
   const increaseFontSize = () => {
@@ -55,6 +61,10 @@ const Home = () => {
     setPopupType(type);
     setPopupTitle(title);
     setTimeout(() => setPopupMessage(""), 4000); // Fecha o popup automaticamente após 3 segundos
+  };
+
+  const toggleGerenciarVeiculo = () => {
+    setIsGerenciarVeiculoOpen(!isGerenciarVeiculoOpen);
   };
 
   return (
@@ -91,14 +101,14 @@ const Home = () => {
             to="#"
             onClick={() => handlePageChange("home")}
           >
-            Home <span>&#10148;</span>
+            Home <span>&#x2B9E;</span>
           </C.SidebarLink>
           <C.SidebarLink
             as={Link}
             to="#"
             onClick={() => handlePageChange("gerenciarPessoa")}
           >
-            Gerenciar pessoa <span>&#10148;</span>
+            Gerenciar pessoa <span>&#x2B9E;</span>
           </C.SidebarLink>
 
           <C.SidebarLink
@@ -106,16 +116,37 @@ const Home = () => {
             to="#"
             onClick={() => handlePageChange("gerenciarUsuario")}
           >
-            Gerenciar Usuario <span>&#10148;</span>
+            Gerenciar Usuario <span>&#x2B9E;</span>
           </C.SidebarLink>
 
-          <C.SidebarLink
-            as={Link}
-            to="#"
-            onClick={() => handlePageChange("cadastrarVeiculo")}
-          >
-            Gerenciar Veículo <span>&#10148;</span>
+          <C.SidebarLink as={Link} to="#" onClick={toggleGerenciarVeiculo}>
+            Gerenciar Veículo{" "}
+            {isGerenciarVeiculoOpen ? (
+              <span>&#x2B9D;</span>
+            ) : (
+              <span>&#x2B9F;</span>
+            )}
           </C.SidebarLink>
+          {isGerenciarVeiculoOpen && (
+            <>
+              <C.SidebarLink
+                as={Link}
+                to="#"
+                onClick={() => handlePageChange("cadastrarVeiculo")}
+                style={{ paddingLeft: "30px" }}
+              >
+                Cadastrar Veículo <span>&#x2B9E;</span>
+              </C.SidebarLink>
+              <C.SidebarLink
+                as={Link}
+                to="#"
+                onClick={() => handlePageChange("cadastrarModelo")}
+                style={{ paddingLeft: "30px" }}
+              >
+                Cadastrar Modelo <span>&#x2B9E;</span>
+              </C.SidebarLink>
+            </>
+          )}
 
           <C.SidebarLink as={Link} to="#" onClick={handleSignout}>
             Sair
@@ -146,6 +177,13 @@ const Home = () => {
             )}
             {activePage === "gerenciarPessoa" && (
               <GerenciarPessoa
+                onUserCreated={handleHome}
+                fontSize={fontSize}
+                showPopupMessage={showPopupMessage}
+              />
+            )}
+            {activePage === "cadastrarModelo" && (
+              <CadastrarModelo
                 onUserCreated={handleHome}
                 fontSize={fontSize}
                 showPopupMessage={showPopupMessage}

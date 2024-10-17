@@ -32,6 +32,24 @@ export const searchModelos = async () => {
   }
 };
 
+export const cadastrarModelo = async (modeloVeiculo) => {
+  try {
+    const response = await api.post("/veiculos/inserir/modelo", modeloVeiculo);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao cadastrar modelos de veículo:", error);
+  }
+};
+
+export const atualizarModelo = async (modeloVeiculo) => {
+  try {
+    const response = await api.put("/veiculos/update/modelo", modeloVeiculo);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao cadastrar modelos de veículo:", error);
+  }
+};
+
 export const searchStatusVeiculo = async () => {
   try {
     const response = await api.get("/veiculos/status/listar");
@@ -56,5 +74,14 @@ export const atualizarVeiculo = async (veiculoData) => {
     return response.data;
   } catch (error) {
     throw new Error("Erro ao cadastrar veículo:", error);
+  }
+};
+
+export const searchNomeModelo = async (nomeModelo) => {
+  try {
+    const response = await api.get(`veiculos/search/nomemodelo/${nomeModelo}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar nome modelo:", error);
   }
 };
