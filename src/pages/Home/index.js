@@ -205,10 +205,10 @@ const Home = () => {
             {activePage === "manutencaoCorretiva" && (
               <ManutencaoCorretiva
                 onUserCreated={handleHome}
-                fontSize={fontSize}
+                fontSize={fontSize} 
                 showPopupMessage={showPopupMessage}
               />
-            )}
+            )} 
             {activePage === "manutencaoProgramada" && (
               <ManutencaoProgramada
                 onUserCreated={handleHome}

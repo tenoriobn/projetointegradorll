@@ -20,7 +20,7 @@ export default function ManutencaoCorretiva(showPopupMessage) {
 
   const handleFormSubmitted = () => {
     setActivePage("consultarManutProgramadaVeiculo");
-  };
+  }; 
 
   return (
     <Container>

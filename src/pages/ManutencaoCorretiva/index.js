@@ -6,7 +6,7 @@ import CadastrarVeiculoForm from '../CadastrarVeiculoForm';
 export default function ManutencaoCorretiva(showPopupMessage) {
   const [activePage, setActivePage] = useState("consultarManutCorretivaVeiculo");
   const [selectedVeiculo, setSelectedVeiculo] = useState(null);
-  const [selectedPlaca, setSelectedPlaca] = useState("");
+  const [selectedPlaca, setSelectedPlaca] = useState(""); 
 
   const handleVeiculoSelected = (veiculo) => {
     setSelectedVeiculo(veiculo);
