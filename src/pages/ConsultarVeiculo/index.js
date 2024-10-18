@@ -76,7 +76,7 @@ const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
             <C.ListItem onClick={() => onGoToCadastrar(valorConsultado)}>
               <p>
                 Nenhuma moto localizada. Clique aqui para cadastrar
-                {valorConsultado}.
+                <b>{valorConsultado}</b>.
               </p>
             </C.ListItem>
           )}

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { searchNomeModelo } from "../../services/veiculoService";
 import * as C from "../../styles/consulta";
 
-const ConsultarModeloVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
+const ConsultarModeloVeiculo = ({ onSelectModeloVeiculo, onGoToCadastrar }) => {
   const [valorConsultado, setValorConsultado] = useState("");
   const [modelos, setModelos] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -57,7 +57,7 @@ const ConsultarModeloVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
         {modelos.map((modelo) => (
           <C.ListItem
             key={modelo.idModelo}
-            onClick={() => onSelectVeiculo(modelo)}
+            onClick={() => onSelectModeloVeiculo(modelo)}
           >
             <p>{modelo.modelo}</p>
             <p>{modelo.idModelo}</p>

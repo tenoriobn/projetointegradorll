@@ -1,24 +1,26 @@
 import { useState } from "react";
 import * as C from "../../styles/gerenciar";
-import CadastrarVeiculoForm from "../CadastrarVeiculoForm";
 import ConsultarModeloVeiculo from "../ConsultarModeloVeiculo";
+import CadastrarModeloForm from "../CadastrarModeloForm";
 
 const CadastrarModelo = ({ showPopupMessage }) => {
   const [activePage, setActivePage] = useState("consultarModeloVeiculo");
   const [selectedModelo, setSelectedModelo] = useState(null);
+  const [modeloParaCadastrar, setModeloParaCadastrar] = useState("");
 
   const handleModeloSelected = (modelo) => {
-    setSelectedModelo(modelo); // E aqui
-    setActivePage("cadastrarVeiculoForm");
+    setSelectedModelo(modelo);
+    setActivePage("CadastrarModeloForm");
   };
 
   const handleFormSubmitted = () => {
-    setActivePage("consultarModeloVeiculo"); // Corrigido aqui
+    setActivePage("consultarModeloVeiculo");
   };
 
-  const handleGoToCadastrar = (modelo) => {
-    setSelectedModelo(modelo);
-    setActivePage("cadastrarModeloForm");
+  const handleGoToCadastrar = (valorConsultado) => {
+    setSelectedModelo(null); // Garantindo que está cadastrando um novo modelo
+    setModeloParaCadastrar(valorConsultado); // Definindo o valor inserido na consulta
+    setActivePage("CadastrarModeloForm");
   };
 
   return (
@@ -27,15 +29,16 @@ const CadastrarModelo = ({ showPopupMessage }) => {
       {activePage === "consultarModeloVeiculo" && (
         <ConsultarModeloVeiculo
           showPopupMessage={showPopupMessage}
-          onSelectVeiculo={handleModeloSelected}
+          onSelectModeloVeiculo={handleModeloSelected}
           onGoToCadastrar={handleGoToCadastrar}
         />
       )}
-      {activePage === "cadastrarVeiculoForm" && (
-        <CadastrarVeiculoForm
+      {activePage === "CadastrarModeloForm" && (
+        <CadastrarModeloForm
           showPopupMessage={showPopupMessage}
           onFormSubmitted={handleFormSubmitted}
-          veiculo={selectedModelo}
+          modelo={selectedModelo}
+          modeloParaCadastrar={modeloParaCadastrar} // Passa o valor da consulta
           onUserCreated={() => setActivePage("consultarModeloVeiculo")}
         />
       )}
