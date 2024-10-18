@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 export const Title = styled.h1`
   /* estilos que agora estão no global.js */
+  margin: 0px;
 `;
 
 export const Container = styled.div`

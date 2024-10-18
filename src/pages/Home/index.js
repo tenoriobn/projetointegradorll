@@ -8,6 +8,8 @@ import GerenciarPessoa from "../GerenciarPessoa";
 import GerenciarUsuario from "../GerenciarUsuario";
 import CadastrarVeiculo from "../GerenciarVeiculo";
 import Popup from "../Popup"; // Popup para exibir as mensagens
+import ManutencaoCorretiva from "../ManutencaoCorretiva";
+import ManutencaoProgramada from "../ManutencaoProgramada";
 
 const Home = () => {
   const { signout, user, idUsuario } = useAuth();
@@ -199,6 +201,20 @@ const Home = () => {
                 <h2>Bem-vindo, {user?.usuario}! </h2>
                 <p>CPF: {user?.cpf}</p>
               </C.UserInfo>
+            )}
+            {activePage === "manutencaoCorretiva" && (
+              <ManutencaoCorretiva
+                onUserCreated={handleHome}
+                fontSize={fontSize}
+                showPopupMessage={showPopupMessage}
+              />
+            )}
+            {activePage === "manutencaoProgramada" && (
+              <ManutencaoProgramada
+                onUserCreated={handleHome}
+                fontSize={fontSize}
+                showPopupMessage={showPopupMessage}
+              />
             )}
             {activePage === "gerenciarUsuario" && (
               <GerenciarUsuario
