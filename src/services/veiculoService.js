@@ -43,7 +43,7 @@ export const cadastrarModelo = async (modeloVeiculo) => {
 
 export const atualizarModelo = async (modeloVeiculo) => {
   try {
-    const response = await api.put("/veiculos/update/modelo", modeloVeiculo);
+    const response = await api.put("/veiculos/update/tbmodelo", modeloVeiculo);
     return response.data;
   } catch (error) {
     throw new Error("Erro ao cadastrar modelos de veículo:", error);

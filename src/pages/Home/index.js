@@ -20,6 +20,8 @@ const Home = () => {
   const [popupType, setPopupType] = useState(""); // Tipo de popup (sucesso ou erro)
   const [popupTitle, setPopupTitle] = useState("");
   const [isGerenciarVeiculoOpen, setIsGerenciarVeiculoOpen] = useState(false);
+  const [isGerenciarManutencaoOpen, setIsGerenciarManutencaoOpen] =
+    useState(false);
 
   const handleSignout = () => {
     signout();
@@ -36,11 +38,15 @@ const Home = () => {
     if (page !== "cadastrarVeiculo" && page !== "cadastrarModelo") {
       setIsGerenciarVeiculoOpen(false);
     }
+    if (page !== "manutencaoCorretiva" && page !== "manutencaoProgramada") {
+      setIsGerenciarVeiculoOpen(false);
+    }
   };
 
   const handleHome = () => {
     setActivePage("home");
     setIsGerenciarVeiculoOpen(false);
+    setIsGerenciarManutencaoOpen(false);
   };
 
   const increaseFontSize = () => {
@@ -65,6 +71,9 @@ const Home = () => {
 
   const toggleGerenciarVeiculo = () => {
     setIsGerenciarVeiculoOpen(!isGerenciarVeiculoOpen);
+  };
+  const toggleGerenciarManutencao = () => {
+    setIsGerenciarManutencaoOpen(!isGerenciarManutencaoOpen);
   };
 
   return (
@@ -103,6 +112,36 @@ const Home = () => {
           >
             Home <span>&#x2B9E;</span>
           </C.SidebarLink>
+
+          <C.SidebarLink as={Link} to="#" onClick={toggleGerenciarManutencao}>
+            Gerenciar Manutenção{" "}
+            {isGerenciarManutencaoOpen ? (
+              <span>&#x2B9D;</span>
+            ) : (
+              <span>&#x2B9F;</span>
+            )}
+          </C.SidebarLink>
+          {isGerenciarManutencaoOpen && (
+            <>
+              <C.SidebarLink
+                as={Link}
+                to="#"
+                onClick={() => handlePageChange("manutencaoCorretiva")}
+                style={{ paddingLeft: "30px" }}
+              >
+                Manutenção Corretiva<span>&#x2B9E;</span>
+              </C.SidebarLink>
+              <C.SidebarLink
+                as={Link}
+                to="#"
+                onClick={() => handlePageChange("manutencaoProgramada")}
+                style={{ paddingLeft: "30px" }}
+              >
+                Manutenção Prorgramada <span>&#x2B9E;</span>
+              </C.SidebarLink>
+            </>
+          )}
+
           <C.SidebarLink
             as={Link}
             to="#"
