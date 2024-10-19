@@ -85,3 +85,23 @@ export const searchNomeModelo = async (nomeModelo) => {
     throw new Error("Erro ao buscar nome modelo:", error);
   }
 };
+
+export const searchManutencaoProgramada = async (nomeModelo) => {
+  try {
+    const response = await api.get(`/manutencao/programada/search/modelo/${nomeModelo}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar nome modelo:", error);
+  }
+};
+
+export const cadastrarManutencaoProgramada = async (veiculoData) => {
+  console.log('veiculoData: ', veiculoData)
+
+  try {
+    const response = await api.post("/manutencao/programada/cadastrar", veiculoData);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao cadastrar veículo:", error);
+  }
+};

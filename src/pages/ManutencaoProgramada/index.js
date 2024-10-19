@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 import { Container, Title } from '../../styles/gerenciar'
-import ConsultarVeiculo from '../ConsultarVeiculo';
-import CadastrarVeiculoForm from '../CadastrarVeiculoForm';
+import ConsultarManutencaoProgramada from '../ConsultarManutencaoProgramada';
+import CadastrarManutencaoForm from '../CadastrarManutencaoForm';
 
-export default function ManutencaoCorretiva(showPopupMessage) {
+export default function ManutencaoProgramada({ showPopupMessage }) {
   const [activePage, setActivePage] = useState("consultarManutProgramadaVeiculo");
-  const [selectedVeiculo, setSelectedVeiculo] = useState(null);
-  const [selectedPlaca, setSelectedPlaca] = useState("");
+  const [selectedProgramacao, setSelectedProgramacao] = useState(null);
+  const [selectedModelo, setSelectedModelo] = useState("");
 
-  const handleVeiculoSelected = (veiculo) => {
-    setSelectedVeiculo(veiculo);
-    setActivePage("cadastrarManutProgramadaVeiculoForm");
+  const handleProgramacaoSelected = (veiculo) => {
+    setSelectedProgramacao(veiculo);
+    setActivePage("cadastrarManutProgramadaForm");
   };
 
   const handleGoToCadastrar = (placa) => {
-    setSelectedPlaca(placa);
-    setActivePage("cadastrarManutProgramadaVeiculoForm");
+    setSelectedModelo(placa);
+
+    setActivePage("cadastrarManutProgramadaForm");
   };
 
   const handleFormSubmitted = () => {
@@ -27,19 +28,19 @@ export default function ManutencaoCorretiva(showPopupMessage) {
       <Title>Manutenção Programada</Title>
 
       {activePage === "consultarManutProgramadaVeiculo" && (
-        <ConsultarVeiculo
+        <ConsultarManutencaoProgramada
           showPopupMessage={showPopupMessage}
-          onSelectVeiculo={handleVeiculoSelected}
+          onSelectManutencao={handleProgramacaoSelected}
           onGoToCadastrar={handleGoToCadastrar}
         />
       )}
 
-      {activePage === "cadastrarManutProgramadaVeiculoForm" && (
-        <CadastrarVeiculoForm
+      {activePage === "cadastrarManutProgramadaForm" && (
+        <CadastrarManutencaoForm
           showPopupMessage={showPopupMessage}
           onFormSubmitted={handleFormSubmitted}
-          veiculo={selectedVeiculo}
-          placa={selectedPlaca}
+          veiculo={selectedProgramacao}
+          placa={selectedModelo}
           onUserCreated={() => setActivePage("consultarManutProgramadaVeiculo")}
         />
       )}
