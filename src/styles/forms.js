@@ -53,3 +53,41 @@ export const SubmitButton = styled.button`
 `;
 
 export const Title = styled.h2``;
+
+// Estilo para a lista (ul)
+export const StyledList = styled.ul`
+  list-style-type: none; /* Remove bullets */
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(
+    3,
+    1fr
+  ); /* Cria três colunas de largura igual */
+  gap: 1rem; /* Espaçamento entre os itens */
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr; /* Em telas menores, cada item ocupa uma linha */
+  }
+`;
+
+// Estilo para os itens da lista (li)
+export const ListItem = styled.li`
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+
+  /* Se você quiser que os valores fiquem alinhados horizontalmente, ajuste isso */
+  @media (max-width: 768px) {
+    /* Em telas menores, os itens ocupam toda a largura da tela */
+    display: block;
+  }
+
+  strong {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+`;

@@ -6,7 +6,11 @@ import {
 import * as C from "../../styles/consulta";
 import { isPlaca, verificarPlaca } from "../../utils/placaUtils";
 
-const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
+const ConsultarVeiculo = ({
+  showPopupMessage,
+  onSelectVeiculo,
+  onGoToCadastrar,
+}) => {
   const [valorConsultado, setValorConsultado] = useState("");
   const [veiculos, setVeiculos] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,6 +31,7 @@ const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
           setVeiculos(resultado); // Atualiza o estado com os veículos retornados
         } catch (error) {
           setConsultaVeiculoError(error.message);
+          showPopupMessage("Erro", error.message, "error");
         } finally {
           setLoading(false);
         }
@@ -40,7 +45,7 @@ const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
     } else if (valorConsultado.length > 2) {
       fetchVeiculo(); // Faz a busca apenas quando há mais de 2 caracteres
     }
-  }, [valorConsultado]);
+  }, [showPopupMessage, valorConsultado]);
 
   return (
     <C.Container>
@@ -72,10 +77,12 @@ const ConsultarVeiculo = ({ onSelectVeiculo, onGoToCadastrar }) => {
         ))}
         {veiculos.length === 0 &&
           !loading &&
+          onGoToCadastrar &&
           verificarPlaca(valorConsultado) && (
             <C.ListItem onClick={() => onGoToCadastrar(valorConsultado)}>
               <p>
-                Nenhuma moto localizada. Clique aqui para cadastrar <b>{valorConsultado}</b>.
+                Nenhuma moto localizada. Clique aqui para cadastrar
+                <b>{valorConsultado}</b>.
               </p>
             </C.ListItem>
           )}

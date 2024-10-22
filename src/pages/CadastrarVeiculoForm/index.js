@@ -33,8 +33,6 @@ const CadastrarVeiculoForm = ({
     kmAtual: veiculo ? veiculo.kmAtual : "",
   });
 
-  console.log('veiculos: ', veiculo)
-
   useEffect(() => {
     const fetchData = async () => {
       try {

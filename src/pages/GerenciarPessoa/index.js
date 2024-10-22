@@ -11,8 +11,6 @@ const GerenciarPessoa = ({ showPopupMessage }) => {
   const handlePessoaSelected = (pessoa) => {
     setSelectedPessoa(pessoa);
     setActivePage("cadastrarPessoa");
-
-    console.log('pessoa: ', pessoa)
   };
 
   const handleGoToCadastrar = (cpf) => {
