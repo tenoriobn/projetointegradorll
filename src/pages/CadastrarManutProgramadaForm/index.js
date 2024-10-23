@@ -7,23 +7,26 @@ import {
 import * as F from "../../styles/forms";
 import * as P from "../../styles/popapform";
 
+const InputField = ({ label, type, value, onChange, required }) => (
+  <P.PopupFormGroup>
+    <label>{label}</label>
+    <input type={type} value={value} onChange={onChange} required={required} />
+  </P.PopupFormGroup>
+);
+
 const CadastrarManutProgramadaForm = ({
   showPopupMessage,
-  onFormSubmitted,
-  veiculo,
   onUserCreated,
+  veiculo,
 }) => {
-  const [NewManutencao, setNewManutencao] = useState({
+  const [newManutencao, setNewManutencao] = useState({
     id: null,
     idVeiculo: veiculo ? veiculo.idVeiculo : null,
     dataManutencao: "",
-    dataFeitoManutencao: "",
     kmManutencao: "",
-    kmFeitoManutencao: "",
     placa: veiculo ? veiculo.placa : "",
     kmAtual: veiculo ? veiculo.kmAtual : "",
     modelo: veiculo ? veiculo.modelo : "",
-    statusVeiculo: veiculo ? veiculo.statusVeiculo : "",
     descricaoManutencao: "",
   });
 
@@ -31,14 +34,17 @@ const CadastrarManutProgramadaForm = ({
   const [showBaixarPopup, setShowBaixarPopup] = useState(false);
   const [dataFeitoManutencao, setDataFeitoManutencao] = useState("");
   const [kmFeitoManutencao, setKmFeitoManutencao] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Fetch maintenance data for the selected vehicle
   const fetchData = useCallback(async () => {
+    if (!veiculo) return;
+
     try {
-      if (veiculo) {
-        const result = await searchManutProgIdVeiculo(veiculo.idVeiculo);
-        setManutencoes(result);
-      }
+      const result = await searchManutProgIdVeiculo(veiculo.idVeiculo);
+      setManutencoes(result);
     } catch (error) {
+      console.error(error);
       showPopupMessage("Erro", "Erro ao buscar manutenções", "error");
     }
   }, [veiculo, showPopupMessage]);
@@ -47,8 +53,7 @@ const CadastrarManutProgramadaForm = ({
     fetchData();
   }, [fetchData]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = ({ target: { name, value } }) => {
     setNewManutencao((prevData) => ({
       ...prevData,
       [name]: typeof value === "string" ? value.toUpperCase() : value,
@@ -61,102 +66,99 @@ const CadastrarManutProgramadaForm = ({
       dataFeitoManutencao,
       kmFeitoManutencao,
     };
+
     try {
       await baixarManutencaoProgramada(manutencaoData);
       showPopupMessage("Sucesso", "Manutenção baixada com sucesso!", "success");
       setShowBaixarPopup(false);
-      fetchData(); // Recarrega a lista de manutenções
+      fetchData(); // Refresh maintenance list
     } catch (error) {
+      console.error(error);
       showPopupMessage("Erro", "Erro ao baixar manutenção", "error");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
+
     try {
-      if (veiculo) {
-        await cadastrarManutencaoProgramada(NewManutencao);
-        showPopupMessage(
-          "Sucesso",
-          "Manutenção agendada com sucesso!",
-          "success"
-        );
-        if (onUserCreated) onUserCreated();
-      }
+      await cadastrarManutencaoProgramada(newManutencao);
+      showPopupMessage(
+        "Sucesso",
+        "Manutenção agendada com sucesso!",
+        "success"
+      );
+      if (onUserCreated) onUserCreated();
     } catch (error) {
+      console.error(error);
       showPopupMessage("Erro", "Erro ao salvar manutenção", "error");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <F.FormContainer onSubmit={handleSubmit}>
-      {/* Formulário da manutenção */}
       <F.Title>Agendar Manutenção</F.Title>
       <F.Row>
         <F.FormGroup>
           <label>Modelo:</label>
-          <p>{NewManutencao.modelo}</p>
+          <p>{newManutencao.modelo}</p>
         </F.FormGroup>
         <F.FormGroup>
           <label>Placa:</label>
-          <p>{NewManutencao.placa}</p>
+          <p>{newManutencao.placa}</p>
         </F.FormGroup>
         <F.FormGroup>
           <label>KM Atual:</label>
-          {NewManutencao.kmAtual}
+          <p>{newManutencao.kmAtual}</p>
         </F.FormGroup>
       </F.Row>
 
       <F.Row>
-        <F.FormGroup>
-          <label>Data da Manutenção:</label>
-          <input
-            type="date"
-            name="dataManutencao"
-            value={NewManutencao.dataManutencao}
-            onChange={handleInputChange}
-            required
-          />
-        </F.FormGroup>
-        <F.FormGroup>
-          <label>KM para Manutenção:</label>
-          <input
-            type="number"
-            name="kmManutencao"
-            value={NewManutencao.kmManutencao}
-            onChange={handleInputChange}
-            required
-          />
-        </F.FormGroup>
+        <InputField
+          label="Data da Manutenção:"
+          type="date"
+          name="dataManutencao"
+          value={newManutencao.dataManutencao}
+          onChange={handleInputChange}
+          required
+        />
+        <InputField
+          label="KM para Manutenção:"
+          type="number"
+          name="kmManutencao"
+          value={newManutencao.kmManutencao}
+          onChange={handleInputChange}
+          required
+        />
       </F.Row>
 
       <F.Row>
-        <F.FormGroup>
-          <label>Descrição da Manutenção:</label>
-          <input
-            type="text"
-            name="descricaoManutencao"
-            value={NewManutencao.descricaoManutencao}
-            onChange={handleInputChange}
-            required
-          />
-        </F.FormGroup>
+        <InputField
+          label="Descrição da Manutenção:"
+          type="text"
+          name="descricaoManutencao"
+          value={newManutencao.descricaoManutencao}
+          onChange={handleInputChange}
+          required
+        />
       </F.Row>
 
-      <F.SubmitButton type="submit">
-        {veiculo ? "Cadastrar Manutenção" : "Baixar Veículo"}
+      <F.SubmitButton type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "Cadastrando..." : "Cadastrar Manutenção"}
       </F.SubmitButton>
 
-      {/* Lista de manutenções agendadas */}
       <F.Title>Manutenções Programadas:</F.Title>
       {manutencoes.length > 0 ? (
         <F.StyledList>
           {manutencoes.slice(0, 3).map((manutencao) => (
             <F.ListItem key={manutencao.id}>
               <strong>Data:</strong> {manutencao.dataManutencao}
-              <strong>KM:</strong> {manutencao.kmManutencao}
-              <strong>Descrição:</strong> {manutencao.descricaoManutencao}
-              {!manutencao.manutencaoOk && (
+              <strong> KM:</strong> {manutencao.kmManutencao}
+              <strong> Descrição:</strong> {manutencao.descricaoManutencao}
+              {!manutencao.manutencaoOk ? (
                 <F.SubmitButton
                   type="button"
                   onClick={() => {
@@ -166,8 +168,7 @@ const CadastrarManutProgramadaForm = ({
                 >
                   Baixar
                 </F.SubmitButton>
-              )}
-              {manutencao.manutencaoOk && (
+              ) : (
                 <>
                   <strong> Executada em:</strong>
                   {manutencao.dataFeitoManutencao}
@@ -182,37 +183,38 @@ const CadastrarManutProgramadaForm = ({
         <p>Não há manutenções agendadas.</p>
       )}
 
-      {/* Popup para baixar manutenção */}
       {showBaixarPopup && (
         <P.Popup>
           <P.PopupContainer>
             <P.PopupTitle>Baixar Manutenção</P.PopupTitle>
-            <F.FormGroup>
-              <label>Data da Manutenção Feita:</label>
-              <input
+            <P.PopupRow>
+              <InputField
+                label="Data da Manutenção Feita:"
                 type="date"
                 value={dataFeitoManutencao}
                 onChange={(e) => setDataFeitoManutencao(e.target.value)}
                 required
               />
-            </F.FormGroup>
-            <F.FormGroup>
-              <label>KM da Manutenção Feita:</label>
-              <input
+              <InputField
+                label="KM da Manutenção Feita:"
                 type="number"
                 value={kmFeitoManutencao}
                 onChange={(e) => setKmFeitoManutencao(e.target.value)}
                 required
               />
-            </F.FormGroup>
-            <F.SubmitButton
-              onClick={() => handleBaixarManutencao(NewManutencao)}
-            >
-              Confirmar Baixa
-            </F.SubmitButton>
-            <F.SubmitButton onClick={() => setShowBaixarPopup(false)}>
-              Cancelar
-            </F.SubmitButton>
+            </P.PopupRow>
+            <P.PopupRow>
+              <P.PopupFormGroup className="button-group">
+                <P.PopupSubmitButton onClick={() => setShowBaixarPopup(false)}>
+                  Cancelar
+                </P.PopupSubmitButton>
+                <P.PopupSubmitButton
+                  onClick={() => handleBaixarManutencao(newManutencao)}
+                >
+                  Confirmar Baixa
+                </P.PopupSubmitButton>
+              </P.PopupFormGroup>
+            </P.PopupRow>
           </P.PopupContainer>
         </P.Popup>
       )}

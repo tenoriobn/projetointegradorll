@@ -34,3 +34,46 @@ export const PopupContainer = styled.div`
   margin: auto;
   z-index: 1000;
 `;
+export const PopupRow = styled.div`
+  display: flex;
+  flex-wrap: wrap; /* Permite que os campos quebrem para a próxima linha se necessário */
+  gap: 1.5rem; /* Espaçamento entre os campos */
+
+  @media (max-width: 768px) {
+    flex-direction: column; /* Em telas menores, os campos ficam em coluna */
+    gap: 1rem; /* Reduz o espaçamento entre os campos em telas menores */
+  }
+`;
+export const PopupFormGroup = styled.div`
+  flex: 1;
+  min-width: 200px;
+  margin-bottom: 1rem;
+
+  &.button-group {
+    display: flex;
+    flex-direction: row; // Alterado para row para alinhar horizontalmente
+    justify-content: flex-end;
+    gap: 1rem;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  label {
+    margin-bottom: 0.1rem;
+  }
+
+  input,
+  select {
+    width: 100%;
+  }
+`;
+
+export const PopupSubmitButton = styled.button`
+  flex: 1;
+  width: auto;
+  padding: 0.8rem 1.5rem;
+  min-width: 120px; // Adicionado para garantir largura mínima
+`;
