@@ -4,6 +4,7 @@ import { UserProvider } from "../../contexts/UserContext"; // Importando o UserP
 import useAuth from "../../hooks/useAuth";
 import * as C from "../../styles/home";
 import CadastrarModelo from "../CadastrarModelo";
+import GerenciarManutCorretiva from "../GerenciarManutCorretiva";
 import GerenciarManutProgramada from "../GerenciarManutProgramada";
 import GerenciarPessoa from "../GerenciarPessoa";
 import GerenciarUsuario from "../GerenciarUsuario";
@@ -231,6 +232,13 @@ const Home = () => {
             )}
             {activePage === "manutencaoProgramada" && (
               <GerenciarManutProgramada
+                onUserCreated={handleHome}
+                fontSize={fontSize}
+                showPopupMessage={showPopupMessage}
+              />
+            )}
+            {activePage === "manutencaoCorretiva" && (
+              <GerenciarManutCorretiva
                 onUserCreated={handleHome}
                 fontSize={fontSize}
                 showPopupMessage={showPopupMessage}
