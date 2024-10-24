@@ -3,7 +3,7 @@ import {
   cadastrarManutencaoProgramada,
   searchManutProgIdVeiculo,
 } from "../../services/manutencaoService";
-import { searchPersonName } from "../../services/personService";
+import { searchPersonMecanico } from "../../services/personService";
 import * as F from "../../styles/forms";
 
 const InputField = ({ label, type, value, onChange, required, children }) => (
@@ -58,7 +58,7 @@ const CadastrarManutCorretivaForm = ({
 
   const buscarMecanicos = async (nome) => {
     try {
-      const result = await searchPersonName(nome);
+      const result = await searchPersonMecanico(nome);
       setMecanicos(result);
     } catch (error) {
       console.error("Erro ao buscar mecânicos:", error);

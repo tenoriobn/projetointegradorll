@@ -9,6 +9,17 @@ export const searchPersonName = async (personData) => {
   }
 };
 
+export const searchPersonMecanico = async (personData) => {
+  try {
+    const response = await api.get(
+      `/pessoas/search/mecanico/like/${personData}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao buscar mecânico:" + error.message);
+  }
+};
+
 export const searchPersonCpf = async (personData) => {
   try {
     const response = await api.get(`/pessoas/search/cpf/like/${personData}`);

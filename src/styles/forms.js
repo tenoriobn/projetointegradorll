@@ -98,16 +98,16 @@ export const Formitem = styled.div`
 `;
 // Dropdown container (abaixo do InputField)
 export const AutocompleteDropdown = styled.div`
-  position: absolute;
+  position: relative;
   z-index: 1000; /* Garante que fique acima de outros elementos */
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 100%; /* Mesma largura do campo de input */
+  width: 60%; /* Mesma largura do campo de input */
   max-height: 200px; /* Limite de altura, para ter um scroll */
   overflow-y: auto; /* Ativa o scroll se a lista for muito longa */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 0.2rem; /* Pequeno espaçamento entre o input e a dropdown */
+  margin-top: 0.1rem; /* Pequeno espaçamento entre o input e a dropdown */
 `;
 
 // Cada item da lista
