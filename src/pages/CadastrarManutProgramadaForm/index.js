@@ -63,8 +63,8 @@ const CadastrarManutProgramadaForm = ({
   const handleBaixarManutencao = async (manutencao) => {
     const manutencaoData = {
       id: manutencao.id,
-      dataFeitoManutencao,
-      kmFeitoManutencao,
+      dataFeitoManutencao: dataFeitoManutencao,
+      kmFeitoManutencao: kmFeitoManutencao,
     };
 
     try {

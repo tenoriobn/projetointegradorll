@@ -47,7 +47,7 @@ export const PopupRow = styled.div`
 export const PopupFormGroup = styled.div`
   flex: 1;
   min-width: 200px;
-  margin-bottom: 1rem;
+  margin-bottom: 1rem; 
 
   &.button-group {
     display: flex;

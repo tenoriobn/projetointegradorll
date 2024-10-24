@@ -91,3 +91,8 @@ export const ListItem = styled.li`
     margin-bottom: 0.5rem;
   }
 `;
+export const Formitem = styled.div`
+  border: solid 1px;
+  flex-grow: 1;
+  min-height: auto;
+`;
