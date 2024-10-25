@@ -103,7 +103,7 @@ export const AutocompleteDropdown = styled.div`
   background-color: white;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 60%; /* Mesma largura do campo de input */
+  width: 90%; /* Mesma largura do campo de input */
   max-height: 200px; /* Limite de altura, para ter um scroll */
   overflow-y: auto; /* Ativa o scroll se a lista for muito longa */
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);

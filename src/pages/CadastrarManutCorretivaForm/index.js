@@ -1,15 +1,30 @@
 import { useCallback, useEffect, useState } from "react";
+import { useUser } from "../../contexts/UserContext";
 import {
-  cadastrarManutencaoProgramada,
-  searchManutProgIdVeiculo,
+  cadastrarManutencaoCorretiva,
+  searchManutCorretivaIdVeiculo,
 } from "../../services/manutencaoService";
 import { searchPersonMecanico } from "../../services/personService";
 import * as F from "../../styles/forms";
 
-const InputField = ({ label, type, value, onChange, required, children }) => (
+const InputField = ({
+  label,
+  type,
+  value,
+  onChange,
+  required,
+  children,
+  name,
+}) => (
   <F.FormGroup>
     <label>{label}</label>
-    <input type={type} value={value} onChange={onChange} required={required} />
+    <input
+      type={type}
+      value={value}
+      onChange={onChange}
+      required={required}
+      name={name} // Adicionado o atributo name
+    />
     {children}
   </F.FormGroup>
 );
@@ -19,6 +34,8 @@ const CadastrarManutCorretivaForm = ({
   onUserCreated,
   veiculo,
 }) => {
+  const idUsuario = useUser();
+
   const [newManutencao, setNewManutencao] = useState({
     id: null,
     idVeiculo: veiculo ? veiculo.idVeiculo : null,
@@ -30,7 +47,18 @@ const CadastrarManutCorretivaForm = ({
     descricaoManutencao: "",
     nomeMecanico: "",
     idMecanico: null,
+    idUsuario: null, // Inicialize como null
   });
+
+  // Adicione este useEffect para atualizar o idUsuario quando ele estiver disponível
+  useEffect(() => {
+    if (idUsuario) {
+      setNewManutencao((prev) => ({
+        ...prev,
+        idUsuario: idUsuario,
+      }));
+    }
+  }, [idUsuario]);
 
   const [manutencoes, setManutencoes] = useState([]);
   const [showBaixarPopup, setShowBaixarPopup] = useState(false);
@@ -44,10 +72,9 @@ const CadastrarManutCorretivaForm = ({
     if (!veiculo) return;
 
     try {
-      const result = await searchManutProgIdVeiculo(veiculo.idVeiculo);
+      const result = await searchManutCorretivaIdVeiculo(veiculo.idVeiculo);
       setManutencoes(result);
     } catch (error) {
-      console.error(error);
       showPopupMessage("Erro", "Erro ao buscar manutenções", "error");
     }
   }, [veiculo, showPopupMessage]);
@@ -87,10 +114,11 @@ const CadastrarManutCorretivaForm = ({
     setMecanicos([]);
   };
 
-  const handleInputChange = ({ target: { name, value } }) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setNewManutencao((prevData) => ({
       ...prevData,
-      [name]: typeof value === "string" ? value.toUpperCase() : value,
+      [name]: value,
     }));
   };
 
@@ -99,7 +127,7 @@ const CadastrarManutCorretivaForm = ({
     setIsSubmitting(true);
 
     try {
-      await cadastrarManutencaoProgramada(newManutencao);
+      await cadastrarManutencaoCorretiva(newManutencao);
       showPopupMessage(
         "Sucesso",
         "Manutenção agendada com sucesso!",
@@ -152,14 +180,16 @@ const CadastrarManutCorretivaForm = ({
       </F.Row>
 
       <F.Row>
-        <InputField
-          label="Descrição da Manutenção:"
-          type="text"
-          name="descricaoManutencao"
-          value={newManutencao.descricaoManutencao}
-          onChange={handleInputChange}
-          required
-        />
+        <F.FormGroup>
+          <label>Descrição da Manutenção:</label>
+          <input
+            type="text"
+            name="descricaoManutencao"
+            value={newManutencao.descricaoManutencao}
+            onChange={handleInputChange}
+            required
+          />
+        </F.FormGroup>
 
         <InputField
           label="Nome do Mecânico:"
@@ -187,6 +217,39 @@ const CadastrarManutCorretivaForm = ({
       <F.SubmitButton type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Cadastrando..." : "Cadastrar Manutenção"}
       </F.SubmitButton>
+
+      <F.Title>Manutenções :</F.Title>
+      {manutencoes.length > 0 ? (
+        <F.StyledList>
+          {manutencoes.slice(0, 3).map((manutencao) => (
+            <F.ListItem key={manutencao.id}>
+              <strong>Data:</strong> {manutencao.dataManutencao}
+              <strong> KM:</strong> {manutencao.kmManutencao}
+              <strong> Descrição:</strong> {manutencao.descricaoManutencao}
+              {!manutencao.manutencaoOk ? (
+                <F.SubmitButton
+                  type="button"
+                  onClick={() => {
+                    setShowBaixarPopup(true);
+                    setNewManutencao(manutencao);
+                  }}
+                >
+                  Baixar
+                </F.SubmitButton>
+              ) : (
+                <>
+                  <strong> Executada em:</strong>
+                  {manutencao.dataFeitoManutencao}
+                  <strong> KM:</strong>
+                  {manutencao.kmFeitoManutencao}
+                </>
+              )}
+            </F.ListItem>
+          ))}
+        </F.StyledList>
+      ) : (
+        <p>Não há manutenções agendadas.</p>
+      )}
     </F.FormContainer>
   );
 };

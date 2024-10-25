@@ -37,3 +37,29 @@ export const baixarManutencaoProgramada = async (manutProgData) => {
     throw new Error("Erro ao cadastrar modelos de veículo:", error);
   }
 };
+
+export const cadastrarManutencaoCorretiva = async (manutCorretivaData) => {
+  try {
+    const response = await api.post(
+      "manutencao/corretiva/cadastrar",
+      manutCorretivaData
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao cadastrar Manutenção Corretiva:", error);
+  }
+};
+
+export const searchManutCorretivaIdVeiculo = async (idVeiculo) => {
+  try {
+    const response = await api.get(
+      `manutencao/corretiva/search/idveiculo/${idVeiculo}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      "Erro ao buscar manutenção corretiva pelo id veiculo:",
+      error
+    );
+  }
+};
