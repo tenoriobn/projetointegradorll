@@ -129,7 +129,7 @@ const Home = () => {
                 as={Link}
                 to="#"
                 onClick={() => handlePageChange("manutencaoCorretiva")}
-                style={{ paddingLeft: "30px" }}
+                style={{ paddingLeft: "20px" }}
               >
                 Manutenção Corretiva<span>&#x2B9E;</span>
               </C.SidebarLink>
@@ -137,9 +137,9 @@ const Home = () => {
                 as={Link}
                 to="#"
                 onClick={() => handlePageChange("manutencaoProgramada")}
-                style={{ paddingLeft: "30px" }}
+                style={{ paddingLeft: "20px" }}
               >
-                Manutenção Prorgramada <span>&#x2B9E;</span>
+                Manutenção Programada<span>&#x2B9E;</span>
               </C.SidebarLink>
             </>
           )}
@@ -174,7 +174,7 @@ const Home = () => {
                 as={Link}
                 to="#"
                 onClick={() => handlePageChange("cadastrarVeiculo")}
-                style={{ paddingLeft: "30px" }}
+                style={{ paddingLeft: "20px" }}
               >
                 Cadastrar Veículo <span>&#x2B9E;</span>
               </C.SidebarLink>
@@ -182,7 +182,7 @@ const Home = () => {
                 as={Link}
                 to="#"
                 onClick={() => handlePageChange("cadastrarModelo")}
-                style={{ paddingLeft: "30px" }}
+                style={{ paddingLeft: "20px" }}
               >
                 Cadastrar Modelo <span>&#x2B9E;</span>
               </C.SidebarLink>

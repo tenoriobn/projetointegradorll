@@ -3,9 +3,11 @@ import { useUser } from "../../contexts/UserContext";
 import {
   cadastrarManutencaoCorretiva,
   searchManutCorretivaIdVeiculo,
+  baixarManutencaoCorretiva,
 } from "../../services/manutencaoService";
 import { searchPersonMecanico } from "../../services/personService";
 import * as F from "../../styles/forms";
+import * as P from "../../styles/popapform";
 
 const InputField = ({
   label,
@@ -40,7 +42,7 @@ const CadastrarManutCorretivaForm = ({
     id: null,
     idVeiculo: veiculo ? veiculo.idVeiculo : null,
     dataManutencao: "",
-    kmManutencao: "",
+    dataFeitoManutencao: "",
     placa: veiculo ? veiculo.placa : "",
     kmAtual: veiculo ? veiculo.kmAtual : "",
     modelo: veiculo ? veiculo.modelo : "",
@@ -63,7 +65,6 @@ const CadastrarManutCorretivaForm = ({
   const [manutencoes, setManutencoes] = useState([]);
   const [showBaixarPopup, setShowBaixarPopup] = useState(false);
   const [dataFeitoManutencao, setDataFeitoManutencao] = useState("");
-  const [kmFeitoManutencao, setKmFeitoManutencao] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mecanicos, setMecanicos] = useState([]);
   const [nomeMecanicoBusca, setNomeMecanicoBusca] = useState("");
@@ -122,6 +123,23 @@ const CadastrarManutCorretivaForm = ({
     }));
   };
 
+  const handleBaixarManutencao = async (manutencao) => {
+    const manutencaoData = {
+      id: manutencao.id,
+      dataFeitoManutencao: dataFeitoManutencao,
+    };
+
+    try {
+      await baixarManutencaoCorretiva(manutencaoData);
+      showPopupMessage("Sucesso", "Manutenção baixada com sucesso!", "success");
+      setShowBaixarPopup(false);
+      fetchData(); // Refresh maintenance list
+    } catch (error) {
+      console.error(error);
+      showPopupMessage("Erro", "Erro ao baixar manutenção", "error");
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -170,28 +188,6 @@ const CadastrarManutCorretivaForm = ({
           required
         />
         <InputField
-          label="KM para Manutenção:"
-          type="number"
-          name="kmManutencao"
-          value={newManutencao.kmManutencao}
-          onChange={handleInputChange}
-          required
-        />
-      </F.Row>
-
-      <F.Row>
-        <F.FormGroup>
-          <label>Descrição da Manutenção:</label>
-          <input
-            type="text"
-            name="descricaoManutencao"
-            value={newManutencao.descricaoManutencao}
-            onChange={handleInputChange}
-            required
-          />
-        </F.FormGroup>
-
-        <InputField
           label="Nome do Mecânico:"
           type="text"
           name="nomeMecanico"
@@ -214,6 +210,19 @@ const CadastrarManutCorretivaForm = ({
         </InputField>
       </F.Row>
 
+      <F.Row>
+        <F.FormGroup>
+          <label>Descrição da Manutenção:</label>
+          <input
+            type="text"
+            name="descricaoManutencao"
+            value={newManutencao.descricaoManutencao}
+            onChange={handleInputChange}
+            required
+          />
+        </F.FormGroup>
+      </F.Row>
+
       <F.SubmitButton type="submit" disabled={isSubmitting}>
         {isSubmitting ? "Cadastrando..." : "Cadastrar Manutenção"}
       </F.SubmitButton>
@@ -224,9 +233,9 @@ const CadastrarManutCorretivaForm = ({
           {manutencoes.slice(0, 3).map((manutencao) => (
             <F.ListItem key={manutencao.id}>
               <strong>Data:</strong> {manutencao.dataManutencao}
-              <strong> KM:</strong> {manutencao.kmManutencao}
+              <strong> KM:</strong> {manutencao.kmAtual}
               <strong> Descrição:</strong> {manutencao.descricaoManutencao}
-              {!manutencao.manutencaoOk ? (
+              {!manutencao.dataFeitoManutencao ? (
                 <F.SubmitButton
                   type="button"
                   onClick={() => {
@@ -238,10 +247,8 @@ const CadastrarManutCorretivaForm = ({
                 </F.SubmitButton>
               ) : (
                 <>
-                  <strong> Executada em:</strong>
+                  <strong> Finalizada em:</strong>
                   {manutencao.dataFeitoManutencao}
-                  <strong> KM:</strong>
-                  {manutencao.kmFeitoManutencao}
                 </>
               )}
             </F.ListItem>
@@ -249,6 +256,35 @@ const CadastrarManutCorretivaForm = ({
         </F.StyledList>
       ) : (
         <p>Não há manutenções agendadas.</p>
+      )}
+
+      {showBaixarPopup && (
+        <P.Popup>
+          <P.PopupContainer>
+            <P.PopupTitle>Baixar Manutenção</P.PopupTitle>
+            <P.PopupRow>
+              <InputField
+                label="Data da Manutenção Feita:"
+                type="date"
+                value={dataFeitoManutencao}
+                onChange={(e) => setDataFeitoManutencao(e.target.value)}
+                required
+              />
+            </P.PopupRow>
+            <P.PopupRow>
+              <P.PopupFormGroup className="button-group">
+                <P.PopupSubmitButton onClick={() => setShowBaixarPopup(false)}>
+                  Cancelar
+                </P.PopupSubmitButton>
+                <P.PopupSubmitButton
+                  onClick={() => handleBaixarManutencao(newManutencao)}
+                >
+                  Confirmar Baixa
+                </P.PopupSubmitButton>
+              </P.PopupFormGroup>
+            </P.PopupRow>
+          </P.PopupContainer>
+        </P.Popup>
       )}
     </F.FormContainer>
   );

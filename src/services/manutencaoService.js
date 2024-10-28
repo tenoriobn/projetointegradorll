@@ -63,3 +63,15 @@ export const searchManutCorretivaIdVeiculo = async (idVeiculo) => {
     );
   }
 };
+
+export const baixarManutencaoCorretiva = async (manutCorretData) => {
+  try {
+    const response = await api.put(
+      "/manutencao/corretiva/baixar",
+      manutCorretData
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao cadastrar modelos de veículo:", error);
+  }
+};
