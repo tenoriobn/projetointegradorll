@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
 import { useUser } from "../../contexts/UserContext";
 import {
+  baixarManutencaoCorretiva,
   cadastrarManutencaoCorretiva,
   searchManutCorretivaIdVeiculo,
-  baixarManutencaoCorretiva,
 } from "../../services/manutencaoService";
 import { searchPersonMecanico } from "../../services/personService";
 import * as F from "../../styles/forms";
@@ -126,6 +126,7 @@ const CadastrarManutCorretivaForm = ({
   const handleBaixarManutencao = async (manutencao) => {
     const manutencaoData = {
       id: manutencao.id,
+      idVeiculo: manutencao.idVeiculo,
       dataFeitoManutencao: dataFeitoManutencao,
     };
 
