@@ -20,8 +20,6 @@ const Home = () => {
   const [activePage, setActivePage] = useState("home");
   const [fontSize, setFontSize] = useState("13px");
 
-  console.log(activePage)
-
   // estado para gerenciar a mensagem do popup
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState(""); // Tipo de popup (sucesso ou erro)

@@ -11,8 +11,6 @@ const ConsultarRelatorioManutProgramada = ({ showPopupMessage, onGoToCadastrar }
   const [loading, setLoading] = useState(false);
   const [consultaVeiculoError, setConsultaVeiculoError] = useState("");
 
-  console.log('manutencoesProgramadas: ', manutencoesProgramadas)
-
   // Função para listar manutenções por período
   const fetchRelatorioPorPeriodo = async () => {
     setLoading(true);

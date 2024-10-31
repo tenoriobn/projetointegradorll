@@ -94,8 +94,6 @@ export const listarManutProgramadaPorPeriodo = async (manutProgDate) => {
   const dataInicial = manutProgDate?.inicial || "2024-01-01";
   const dataFinal = manutProgDate?.final || "2024-12-31";
 
-  console.log('manutProgDate: ', manutProgDate)
-
   try {
     const response = await api.get(
       `/manutencao/programada/search/periodo/${dataInicial}/${dataFinal}`,
@@ -123,8 +121,6 @@ export const listarManutCorretivaVeiculo = async (manutProgData) => {
 export const listarManutCorretivaPorPeriodo = async (manutProgDate) => {
   const dataInicial = manutProgDate?.inicial || "2024-01-01";
   const dataFinal = manutProgDate?.final || "2024-12-31";
-
-  console.log('manutProgDate: ', manutProgDate)
 
   try {
     const response = await api.get(
