@@ -18,7 +18,7 @@ const GerenciarManutCorretiva = ({ showPopupMessage }) => {
 
   return (
     <C.Container>
-      <C.Title>Cerenciar Manutenção Corretiva</C.Title>
+      <C.Title>Gerenciar Manutenção Corretiva</C.Title>
       {activePage === "consultarVeiculo" && (
         <ConsultarVeiculo
           showPopupMessage={showPopupMessage}

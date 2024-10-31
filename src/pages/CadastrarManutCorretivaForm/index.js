@@ -9,16 +9,17 @@ import { searchPersonMecanico } from "../../services/personService";
 import * as F from "../../styles/forms";
 import * as P from "../../styles/popapform";
 
-const InputField = ({
+export const InputField = ({
   label,
   type,
   value,
   onChange,
   required,
   children,
+  maxWidth,
   name,
 }) => (
-  <F.FormGroup>
+  <F.FormGroup style={{ maxWidth: maxWidth }}>
     <label>{label}</label>
     <input
       type={type}

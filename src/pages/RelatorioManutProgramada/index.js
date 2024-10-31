@@ -1,9 +1,9 @@
 import { useState } from "react";
 import * as C from "../../styles/gerenciar.js";
 import CadastrarManutProgramadaForm from "../CadastrarManutProgramadaForm/index.js";
-import ConsultarVeiculo from "../ConsultarVeiculo/index.js";
+import ConsultarRelatorioManutProgramada from "../ConsultarRelatorioManutProgramada/index.js";
 
-const GerenciarManutProgramada = ({ showPopupMessage }) => {
+const RelatorioManutProgramada = ({ showPopupMessage }) => {
   const [activePage, setActivePage] = useState("consultarVeiculo");
   const [selectedVeiculo, setSelectedVeiculo] = useState(null);
 
@@ -18,9 +18,9 @@ const GerenciarManutProgramada = ({ showPopupMessage }) => {
 
   return (
     <C.Container>
-      <C.Title>Gerenciar Manutenção Programada</C.Title>
+      <C.Title>Relatório Manutenção Programada</C.Title>
       {activePage === "consultarVeiculo" && (
-        <ConsultarVeiculo
+        <ConsultarRelatorioManutProgramada
           showPopupMessage={showPopupMessage}
           onSelectVeiculo={handleVeiculoSelected}
         />
@@ -37,4 +37,4 @@ const GerenciarManutProgramada = ({ showPopupMessage }) => {
   );
 };
 
-export default GerenciarManutProgramada;
+export default RelatorioManutProgramada;

@@ -75,3 +75,33 @@ export const baixarManutencaoCorretiva = async (manutCorretData) => {
     throw new Error("Erro ao cadastrar modelos de veículo:", error);
   }
 };
+
+export const listarManutProgramadaVeiculo = async (manutProgData) => {
+  const veiculoID = manutProgData.veiculoID;
+  const dataInicial = manutProgData?.inicial || "2024-01-01";
+  const dataFinal = manutProgData?.final || "2024-12-31";
+  try {
+    const response = await api.get(
+      `/manutencao/programada/search/idveiculo/periodo/${veiculoID}/${dataInicial}/${dataFinal}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao cadastrar modelos de veículo:", error);
+  }
+};
+
+export const listarManutProgramadaPorPeriodo = async (manutProgDate) => {
+  const dataInicial = manutProgDate?.inicial || "2024-01-01";
+  const dataFinal = manutProgDate?.final || "2024-12-31";
+
+  console.log('manutProgDate: ', manutProgDate)
+
+  try {
+    const response = await api.get(
+      `/manutencao/programada/search/periodo/${dataInicial}/${dataFinal}`,
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao cadastrar modelos de veículo:", error);
+  }
+};

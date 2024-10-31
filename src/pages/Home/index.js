@@ -10,6 +10,7 @@ import GerenciarPessoa from "../GerenciarPessoa";
 import GerenciarUsuario from "../GerenciarUsuario";
 import CadastrarVeiculo from "../GerenciarVeiculo";
 import Popup from "../Popup"; // Popup para exibir as mensagens
+import RelatorioManutProgramada from "../RelatorioManutProgramada";
 
 const Home = () => {
   const { signout, user, idUsuario } = useAuth();
@@ -17,13 +18,15 @@ const Home = () => {
   const [activePage, setActivePage] = useState("home");
   const [fontSize, setFontSize] = useState("13px");
 
+  console.log(activePage)
+
   // estado para gerenciar a mensagem do popup
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState(""); // Tipo de popup (sucesso ou erro)
   const [popupTitle, setPopupTitle] = useState("");
   const [isGerenciarVeiculoOpen, setIsGerenciarVeiculoOpen] = useState(false);
-  const [isGerenciarManutencaoOpen, setIsGerenciarManutencaoOpen] =
-    useState(false);
+  const [isGerenciarManutencaoOpen, setIsGerenciarManutencaoOpen] = useState(false);
+  const [isRelatorioOpen, setIsRelatorioOpen] = useState(false);
 
   const handleSignout = () => {
     signout();
@@ -73,9 +76,18 @@ const Home = () => {
 
   const toggleGerenciarVeiculo = () => {
     setIsGerenciarVeiculoOpen(!isGerenciarVeiculoOpen);
+    setIsGerenciarManutencaoOpen(false)
+    setIsRelatorioOpen(false);
   };
   const toggleGerenciarManutencao = () => {
     setIsGerenciarManutencaoOpen(!isGerenciarManutencaoOpen);
+    setIsGerenciarVeiculoOpen(false);
+    setIsRelatorioOpen(false);
+  };
+  const toggleRelatorio = () => {
+    setIsRelatorioOpen(!isRelatorioOpen);
+    setIsGerenciarManutencaoOpen(false);
+    setIsGerenciarVeiculoOpen(false);
   };
 
   return (
@@ -189,6 +201,43 @@ const Home = () => {
             </>
           )}
 
+          <C.SidebarLink as={Link} to="#" onClick={toggleRelatorio}>
+            Relatórios{" "}
+            {isRelatorioOpen ? (
+              <span>&#x2B9D;</span>
+            ) : (
+              <span>&#x2B9F;</span>
+            )}
+          </C.SidebarLink>
+          {isRelatorioOpen && (
+            <>
+              <C.SidebarLink
+                as={Link}
+                to="#"
+                onClick={() => handlePageChange("relatorioManutencaoProgramada")}
+                style={{ paddingLeft: "20px" }}
+              >
+                Manutenção Programada <span>&#x2B9E;</span>
+              </C.SidebarLink>
+              <C.SidebarLink
+                as={Link}
+                to="#"
+                onClick={() => handlePageChange("relatorioManutencaoCorretiva")}
+                style={{ paddingLeft: "20px" }}
+              >
+                Manutenção Corretiva <span>&#x2B9E;</span>
+              </C.SidebarLink>
+              <C.SidebarLink
+                as={Link}
+                to="#"
+                onClick={() => handlePageChange("relatorioStatusVeiculo")}
+                style={{ paddingLeft: "20px" }}
+              >
+                Status do Veículo <span>&#x2B9E;</span>
+              </C.SidebarLink>
+            </>
+          )}
+
           <C.SidebarLink as={Link} to="#" onClick={handleSignout}>
             Sair
           </C.SidebarLink>
@@ -238,6 +287,28 @@ const Home = () => {
               />
             )}
             {activePage === "manutencaoCorretiva" && (
+              <GerenciarManutCorretiva
+                onUserCreated={handleHome}
+                fontSize={fontSize}
+                showPopupMessage={showPopupMessage}
+              />
+            )}
+
+            {activePage === "relatorioManutencaoProgramada" && (
+              <RelatorioManutProgramada
+                onUserCreated={handleHome}
+                fontSize={fontSize}
+                showPopupMessage={showPopupMessage}
+              />
+            )}
+            {activePage === "relatorioManutencaoCorretiva" && (
+              <GerenciarManutCorretiva
+                onUserCreated={handleHome}
+                fontSize={fontSize}
+                showPopupMessage={showPopupMessage}
+              />
+            )}
+            {activePage === "relatorioStatusVeiculo" && (
               <GerenciarManutCorretiva
                 onUserCreated={handleHome}
                 fontSize={fontSize}
