@@ -11,6 +11,8 @@ import GerenciarUsuario from "../GerenciarUsuario";
 import CadastrarVeiculo from "../GerenciarVeiculo";
 import Popup from "../Popup"; // Popup para exibir as mensagens
 import RelatorioManutProgramada from "../RelatorioManutProgramada";
+import RelatorioManutCorretiva from "../RelatorioManutCorretiva";
+import RelatorioStatusVeiculo from "../RelatorioStatusVeiculo";
 
 const Home = () => {
   const { signout, user, idUsuario } = useAuth();
@@ -302,14 +304,14 @@ const Home = () => {
               />
             )}
             {activePage === "relatorioManutencaoCorretiva" && (
-              <GerenciarManutCorretiva
+              <RelatorioManutCorretiva
                 onUserCreated={handleHome}
                 fontSize={fontSize}
                 showPopupMessage={showPopupMessage}
               />
             )}
             {activePage === "relatorioStatusVeiculo" && (
-              <GerenciarManutCorretiva
+              <RelatorioStatusVeiculo
                 onUserCreated={handleHome}
                 fontSize={fontSize}
                 showPopupMessage={showPopupMessage}

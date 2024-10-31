@@ -29,6 +29,15 @@ export const Input = styled.input`
   width: 100%;
 `;
 
+export const Select = styled.select`
+  outline: none;
+  width: 100%;
+
+  &:focus {
+    outline: 2px solid #007bff;
+  }
+`;
+
 export const Button = styled.button`
   background-color: #007bff;
   color: white;

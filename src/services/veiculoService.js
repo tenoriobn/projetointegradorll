@@ -85,3 +85,23 @@ export const searchNomeModelo = async (nomeModelo) => {
     throw new Error("Erro ao buscar nome modelo:", error);
   }
 };
+
+export const listarStatusVeiculos = async () => {
+
+  try {
+    const response = await api.get(`veiculos/status/listar`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao cadastrar modelos de veículo:", error);
+  }
+};
+
+export const listarStatusVeiculosPorPeriodo = async (idStatus) => {
+  try {
+    const response = await api.get(`/veiculos/search/veiculostatus/status/${idStatus}`);
+    return response.data;
+  } catch (error) {
+    throw new Error("Erro ao cadastrar modelos de veículo:", error);
+  }
+};
+
