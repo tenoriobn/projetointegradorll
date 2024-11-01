@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { listarStatusVeiculos, listarStatusVeiculosPorPeriodo } from "../../services/veiculoService";
-import * as C from "../../styles/consulta";
-import { Table } from "../../styles/table";
+import { listarStatusVeiculos, listarStatusVeiculosPorPeriodo } from "../../../services/veiculoService";
+import * as C from "../../../styles/consulta";
+import { Table } from "../../../styles/table";
 
 const ConsultarRelatorioStatusVeiculo = ({ showPopupMessage, onGoToCadastrar }) => {
   const [statusOptions, setStatusOptions] = useState([]); // Estado para armazenar as opções de status

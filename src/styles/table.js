@@ -12,6 +12,14 @@ export const Table = styled.table`
     margin: .3125rem;
   }
 
+  .info {
+    cursor: pointer;
+
+    &:hover {
+      background-color:  #c8cad0;
+    }
+  }
+
   th {
     font-weight: 700;
     text-align: center;

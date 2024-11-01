@@ -1,11 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import { searchVeiculoPlaca } from "../../services/veiculoService";
-import * as C from "../../styles/consulta";
-import { listarManutProgramadaPorPeriodo, listarManutProgramadaVeiculo } from "../../services/manutencaoService";
-import { Table } from "../../styles/table";
+import { searchVeiculoPlaca } from "../../../services/veiculoService";
+import * as C from "../../../styles/consulta";
+import { listarManutCorretivaPorPeriodo, listarManutCorretivaVeiculo } from "../../../services/manutencaoService";
+import { Table } from "../../../styles/table";
 
-const ConsultarRelatorioManutProgramada = ({ showPopupMessage, onGoToCadastrar }) => {
+const ConsultarRelatorioManutCorretiva = ({ showPopupMessage, onGoToCadastrar, onSelectVeiculo }) => {
   const [valorConsultado, setValorConsultado] = useState({ placa: "", inicio: "", final: "" });
   const [manutencoesProgramadas, setManutencoesProgramadas] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ const ConsultarRelatorioManutProgramada = ({ showPopupMessage, onGoToCadastrar }
   const fetchRelatorioPorPeriodo = async () => {
     setLoading(true);
     try {
-      const resultado = await listarManutProgramadaPorPeriodo({
+      const resultado = await listarManutCorretivaPorPeriodo({
         inicial: valorConsultado.inicio,
         final: valorConsultado.final
       });
@@ -34,7 +34,7 @@ const ConsultarRelatorioManutProgramada = ({ showPopupMessage, onGoToCadastrar }
     try {
       const veiculoID = await fetchVeiculoID();
       if (veiculoID) {
-        const resultado = await listarManutProgramadaVeiculo({
+        const resultado = await listarManutCorretivaVeiculo({
           veiculoID,
           inicial: valorConsultado.inicio,
           final: valorConsultado.final
@@ -115,7 +115,7 @@ const ConsultarRelatorioManutProgramada = ({ showPopupMessage, onGoToCadastrar }
           </thead>
           <tbody>
             {manutencoesProgramadas.map((manut) => (
-              <tr key={manut.id}>
+              <tr onClick={() => onSelectVeiculo(manut)} className="info" key={manut.id}>
                 <td>{manut.id}</td>
                 <td>{manut.modelo}</td>
                 <td>{manut.placa}</td>
@@ -137,4 +137,4 @@ const ConsultarRelatorioManutProgramada = ({ showPopupMessage, onGoToCadastrar }
   );
 };
 
-export default ConsultarRelatorioManutProgramada;
+export default ConsultarRelatorioManutCorretiva;

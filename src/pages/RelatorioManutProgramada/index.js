@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as C from "../../styles/gerenciar.js";
-import CadastrarManutProgramadaForm from "../CadastrarManutProgramadaForm/index.js";
-import ConsultarRelatorioManutProgramada from "../ConsultarRelatorioManutProgramada/index.js";
+import ConsultarRelatorioManutProgramada from "./ConsultarRelatorioManutProgramada/index.js";
+import RelatorioManutProgamInfo from "./RelatorioManutProgamInfo/index.js";
 
 const RelatorioManutProgramada = ({ showPopupMessage }) => {
   const [activePage, setActivePage] = useState("consultarVeiculo");
@@ -9,7 +9,7 @@ const RelatorioManutProgramada = ({ showPopupMessage }) => {
 
   const handleVeiculoSelected = (veiculo) => {
     setSelectedVeiculo(veiculo);
-    setActivePage("cadastrarManutencaoProgramadaForm");
+    setActivePage("relatorioManutProgamInfo");
   };
 
   const handleFormSubmitted = () => {
@@ -25,8 +25,8 @@ const RelatorioManutProgramada = ({ showPopupMessage }) => {
           onSelectVeiculo={handleVeiculoSelected}
         />
       )}
-      {activePage === "cadastrarManutencaoProgramadaForm" && (
-        <CadastrarManutProgramadaForm
+      {activePage === "relatorioManutProgamInfo" && (
+        <RelatorioManutProgamInfo
           showPopupMessage={showPopupMessage}
           onFormSubmitted={handleFormSubmitted}
           veiculo={selectedVeiculo}
