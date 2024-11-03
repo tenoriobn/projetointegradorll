@@ -31,7 +31,7 @@ const Signin = () => {
 
   return (
     <C.Container>
-      <C.Label>MOTOCHEK - LOGIN</C.Label>
+      <C.Label data-testid="login-label">MOTOCHEK - LOGIN</C.Label>
       <C.Content>
         <Input
           type="text"
@@ -45,7 +45,7 @@ const Signin = () => {
           value={senha}
           onChange={(e) => [setSenha(e.target.value), setError("")]}
         />
-        <C.labelError>{error}</C.labelError>
+        <C.labelError data-testid="error-label">{error}</C.labelError>
         <Button Text="Entrar" onClick={handleLogin} />
       </C.Content>
     </C.Container>
